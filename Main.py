@@ -11,13 +11,8 @@ dirPath = "/Users/vivekgoud/Documents/GitHub/Test_project_Codeclonetracer/online
 allFilesData= data_extraction.getAllFilesUsingFolderPath(dirPath)
 print("Extracting methods from files")
 
-codeBlocks,linesofcode = data_extraction.extractMethodsAllFiles(allFilesData)
+linesofcode,codeclonelines = data_extraction.extractMethodsAllFiles(allFilesData)
 
-
-# codeBlocksWithClonePairsType1 = TypeOneDetector.detectClone(allFilesMethods)
-# print(codeBlocksWithClonePairsType1)
-print("Detecting clones")
-clones,codeclonelines= CloneDetector.detectClone(codeBlocks)
 
 print(linesofcode,"total lines",codeclonelines,"total cloned lines", (codeclonelines/linesofcode)*100 , "cloning percentage")
 print("Saving to CSV")
