@@ -11,7 +11,7 @@ dirPath = "/Users/vivekgoud/Documents/GitHub/Test_project_Codeclonetracer/online
 allFilesData= data_extraction.getAllFilesUsingFolderPath(dirPath)
 print("Extracting methods from files")
 
-linesofcode,codeclonelines = data_extraction.extractMethodsAllFiles(allFilesData)
+current_dataset,linesofcode,codeclonelines= data_extraction.extractMethodsAllFiles(allFilesData)
 
 
 print(linesofcode,"total lines",codeclonelines,"total cloned lines", (codeclonelines/linesofcode)*100 , "cloning percentage")
@@ -20,3 +20,9 @@ print("Saving to CSV")
 #CloneSave.writeToCSV(codeBlocks)
 
 
+#pip install python-Levenshtein
+
+#pip install pydriller
+#pip install fuzzywuzzy
+#pip install pandas
+#pip install javalang
