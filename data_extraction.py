@@ -47,15 +47,16 @@ def extractMethodsAllFiles(listOfFiles):
     previous_dataset = pd.DataFrame()
     previous_clones = pd.DataFrame(columns=['codeBlockId','codeBlock_start','codeBlock_end','codeBlock_fileinfo','codeblock_Code','codeCloneBlockId',
                                'codeCloneBlock_Fileinfo','Similarity_Tokens','Similarity_Variable_Flow',
-                             'Similarity_MethodCall_Flow','commitinfo','nloc','RevisionNumber'])
+                             'Similarity_MethodCall_Flow','commitinfo','nloc','Revision'])
     if os.path.isfile(previous_file_name): #previous_file_name.exists(): 
         previous_dataset =  pd.read_csv(previous_file_name, index_col=0)
-        revision = previous_dataset.RevisionNumber.unique()
-        previous_clones = previous_dataset[~previous_dataset.new_path.isin(current_dataset.new_path)]
+        revision = previous_dataset.Revision.unique()
+        print("Revision",revision[0])
+        previous_clones = previous_dataset[~previous_dataset.codeBlock_fileinfo.isin(current_dataset.codeBlock_fileinfo)]
         frames = [current_dataset,previous_clones]
         current_dataset=pd.concat([current_dataset,previous_clones])
         current_dataset= current_dataset.loc[current_dataset.astype(str).drop_duplicates().index]
-        current_dataset['Revision'] = revision + 1
+        current_dataset['Revision'] = revision[0] + 1
     else:
         print("First version, no cloning result exists")
         current_dataset['Revision'] = 1
@@ -64,7 +65,7 @@ def extractMethodsAllFiles(listOfFiles):
     all_columns = list(current_dataset) # Creates list of all column headers
     current_dataset[all_columns] = current_dataset[all_columns].astype(str)
     current_dataset= current_dataset.loc[current_dataset.astype(str).drop_duplicates().index]
-    current_dataset.to_csv('/Users/vivekgoud/Downloads/Tracking_datase.csvt')
+    current_dataset.to_csv('/Users/vivekgoud/Downloads/Tracking_dataset.csv')
         #current_dataset.to_sql('rxjava', con= engine, if_exists='append', index=False)
         #pd.read_sql('select count(*) from rxjava', conn=engine)
         #current_dataset.to_sql('training_onlinebookstore', con=engine, if_exists='append', index=False)"""
@@ -93,8 +94,9 @@ def dataset_creation(codeBlocks):
           index=['codeBlockId','codeBlock_start','codeBlock_end','codeBlock_fileinfo','codeblock_Code','codeCloneBlockId',
                                'codeCloneBlock_Fileinfo','Similarity_Tokens','Similarity_Variable_Flow',
                              'Similarity_MethodCall_Flow','commitinfo','nloc'])
-        row_df = pd.DataFrame([a_row])
-        df=df.append(row_df) 
+        df=pd.concat([df,a_row])
+        #row_df = pd.DataFrame([a_row])
+        #df=df.append(row_df) 
 
     return df
 
