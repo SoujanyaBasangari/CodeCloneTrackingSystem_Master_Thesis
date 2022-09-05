@@ -13,7 +13,7 @@ minimumLengthBlock = 4
 
 # Threshhold for considering as code clones
 # Threshhold = 1 for type 2 clones
-tokenSimilarityThreshold = 0.75
+tokenSimilarityThreshold = 0.55
 
 # Threshold for similarity measure by data flow approach
 similarityDataFlowThreshold = 0.65

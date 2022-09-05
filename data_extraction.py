@@ -1,3 +1,4 @@
+from datetime import datetime
 import itertools
 import logging
 import os
@@ -18,13 +19,16 @@ def extractMethodsAllFiles(listOfFiles):
     blocksSoFar = 0
     linesofcode = 0
     codeBlocks= {}
+    
     for filePath in listOfFiles:
         file = open(filePath, 'r', encoding='utf-8')
         originalCode = file.readlines()
         file.close()
         if Config.granularity == 'method_level':
+      
             linesofcode = linesofcode + len(originalCode)
             codeBlocks = methodLevelBlocks(originalCode)
+            
         else:
             linesofcode = linesofcode + len(originalCode)
             codeBlocks = fileLevelBlocks(originalCode)
@@ -35,37 +39,45 @@ def extractMethodsAllFiles(listOfFiles):
                 continue
             codeBlock.update({"FileInfo": filePath})
             codeBlock.update({"nloc": len(codeBlock)})
+            codeBlock.update({"source_code": originalCode})
+            
             blocksSoFar += 1
             allFilesMethodsBlocks["CodeBlock" + str(blocksSoFar)] = codeBlock
-
+    
     granularity = Config.granularity
     codeBlocks,codeclonelines=CloneDetector.detectClone(allFilesMethodsBlocks)
-    
-    previous_file_name = '/Users/vivekgoud/Downloads/Tracking_dataset.csv'
+   
+    previous_file_name = '/Users/vivekgoud/Downloads/thesis/'+granularity+'tracking.csv'
     current_dataset=dataset_creation(codeBlocks)
     
     previous_dataset = pd.DataFrame()
     previous_clones = pd.DataFrame(columns=['codeBlockId','codeBlock_start','codeBlock_end','codeBlock_fileinfo','codeblock_Code','codeCloneBlockId',
                                'codeCloneBlock_Fileinfo','Similarity_Tokens','Similarity_Variable_Flow',
-                             'Similarity_MethodCall_Flow','commitinfo','nloc','Revision'])
+                               'Similarity_MethodCall_Flow','commitinfo','nloc','Revision'])
     if os.path.isfile(previous_file_name): #previous_file_name.exists(): 
         previous_dataset =  pd.read_csv(previous_file_name, index_col=0)
         revision = previous_dataset.Revision.unique()
         print("Revision",revision[0])
-        previous_clones = previous_dataset[~previous_dataset.codeBlock_fileinfo.isin(current_dataset.codeBlock_fileinfo)]
-        frames = [current_dataset,previous_clones]
-        current_dataset=pd.concat([current_dataset,previous_clones])
-        current_dataset= current_dataset.loc[current_dataset.astype(str).drop_duplicates().index]
+        #previous_clones = previous_dataset[~previous_dataset.codeBlock_fileinfo.isin(current_dataset.codeBlock_fileinfo)]
+        #frames = [current_dataset,previous_clones]
         current_dataset['Revision'] = revision[0] + 1
+        current_dataset=pd.concat([current_dataset,previous_dataset])
+        current_dataset= current_dataset.loc[current_dataset.astype(str).drop_duplicates().index]
+        
     else:
         print("First version, no cloning result exists")
+        print("Revision",1)
         current_dataset['Revision'] = 1
 
     current_dataset = current_dataset.convert_dtypes()
     all_columns = list(current_dataset) # Creates list of all column headers
     current_dataset[all_columns] = current_dataset[all_columns].astype(str)
     current_dataset= current_dataset.loc[current_dataset.astype(str).drop_duplicates().index]
-    current_dataset.to_csv('/Users/vivekgoud/Downloads/Tracking_dataset.csv')
+    current_dataset['datetime'] = datetime.now()
+    current_dataset = current_dataset.reset_index(drop=True)
+    current_dataset=current_dataset.drop_duplicates(subset=['codeBlockId','Revision','codeCloneBlockId'],keep='last')
+    current_dataset = current_dataset.reset_index(drop=True)
+    current_dataset.to_csv('/Users/vivekgoud/Downloads/thesis/'+granularity+'tracking.csv')
         #current_dataset.to_sql('rxjava', con= engine, if_exists='append', index=False)
         #pd.read_sql('select count(*) from rxjava', conn=engine)
         #current_dataset.to_sql('training_onlinebookstore', con=engine, if_exists='append', index=False)"""
@@ -76,7 +88,7 @@ def dataset_creation(codeBlocks):
 
     df = pd.DataFrame(columns=['codeBlockId','codeBlock_start','codeBlock_end','codeBlock_fileinfo','codeblock_Code','codeCloneBlockId',
                                'codeCloneBlock_Fileinfo','Similarity_Tokens','Similarity_Variable_Flow',
-                             'Similarity_MethodCall_Flow','commitinfo','nloc'])
+                             'Similarity_MethodCall_Flow','nloc'])
 
     output=[]
     for codeBlockId in codeBlocks:
@@ -85,16 +97,17 @@ def dataset_creation(codeBlocks):
             codeCloneBlockId = codeCloneBlockData["codeCandidateId"]
             codeCloneBlock = codeBlocks[codeCloneBlockId]
             codeCloneSimilarity = codeCloneBlockData["Similarity"]
-            output.append([codeBlockId,str(codeBlock["Start"]),str(codeBlock["End"]),codeBlock["FileInfo"],codeBlock["Code"],codeCloneBlockData["codeCandidateId"],
-                       codeCloneBlock["Code"],codeCloneBlock["FileInfo"],str(codeCloneSimilarity[0]),str(codeCloneSimilarity[1]),
-                      str(codeCloneSimilarity[2]),str(codeBlock["nloc"])
+            output.append([codeBlockId,str(codeBlock["Start"]),str(codeBlock["End"]),codeBlock["FileInfo"],codeBlock["Code"],
+                        codeCloneBlockData["codeCandidateId"],codeCloneBlock["FileInfo"],str(codeCloneSimilarity[0]),
+                        str(codeCloneSimilarity[1]),str(codeCloneSimilarity[2]),str(codeBlock["nloc"])
                       ])            
     for index,x in enumerate(output):
-        a_row=pd.Series([x[0],x[1],x[2],x[3],x[4],x[5],x[6],x[7],x[8],x[9],x[10],x[11]],
+        a_row=pd.Series([x[0],x[1],x[2],x[3],x[4],x[5],x[6],x[7],x[8],x[9],x[10]],
           index=['codeBlockId','codeBlock_start','codeBlock_end','codeBlock_fileinfo','codeblock_Code','codeCloneBlockId',
                                'codeCloneBlock_Fileinfo','Similarity_Tokens','Similarity_Variable_Flow',
-                             'Similarity_MethodCall_Flow','commitinfo','nloc'])
-        df=pd.concat([df,a_row])
+                             'Similarity_MethodCall_Flow','nloc'])
+        row_df = pd.DataFrame([a_row])
+        df=df.append(row_df) 
         #row_df = pd.DataFrame([a_row])
         #df=df.append(row_df) 
 
