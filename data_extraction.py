@@ -19,7 +19,7 @@ def extractMethodsAllFiles(listOfFiles):
     blocksSoFar = 0
     linesofcode = 0
     codeBlocks= {}
-    
+    print("data extraction from source code")
     for filePath in listOfFiles:
         file = open(filePath, 'r', encoding='utf-8')
         originalCode = file.readlines()
@@ -46,10 +46,10 @@ def extractMethodsAllFiles(listOfFiles):
     
     granularity = Config.granularity
     codeBlocks,codeclonelines=CloneDetector.detectClone(allFilesMethodsBlocks)
-   
+    print("detecting code clones")
     previous_file_name = '/Users/vivekgoud/Downloads/thesis/'+granularity+'tracking.csv'
     current_dataset=dataset_creation(codeBlocks)
-    
+    print("Transforming detected code blocks into dataset")
     previous_dataset = pd.DataFrame()
     previous_clones = pd.DataFrame(columns=['codeBlockId','codeBlock_start','codeBlock_end','codeBlock_fileinfo','codeblock_Code','codeCloneBlockId',
                                'codeCloneBlock_Fileinfo','Similarity_Tokens','Similarity_Variable_Flow',
