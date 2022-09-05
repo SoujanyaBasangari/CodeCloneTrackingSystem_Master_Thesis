@@ -61,12 +61,12 @@ def clonetracingModel(df):
     #plt.figure(figsize=(50, 12))
     #dend=hcluster.dendrogram(hcluster.linkage(manhattan_distance_df,method='ward'))
     
-def analysis_creating_report(final_dataframe):
+def analysis_creating_report(final_dataframe,total_files,cloning_percentage):
     output = final_dataframe[['unique', 'Revision','clonesets','codeBlockId', 'codeBlock_start', 'codeBlock_end','nloc',
        'codeBlock_fileinfo', 'codeCloneBlockId']]
     output=output.drop_duplicates(subset=['unique'],keep='last')
     output=output.sort_values('Revision')
-
+ 
     #TEST
     #N = 1
     #output = output.iloc[:-N , :]
