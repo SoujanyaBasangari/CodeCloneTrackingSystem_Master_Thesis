@@ -2,7 +2,7 @@ from datetime import datetime
 import itertools
 import logging
 import os
-#import GetFunctions
+# import GetFunctions
 import re
 import sys
 import traceback
@@ -11,24 +11,25 @@ import javalang
 
 import Config
 import pandas as pd
+
 global found_parent
 
+
 def extractMethodsAllFiles(listOfFiles):
-   
     allFilesMethodsBlocks = {}
     blocksSoFar = 0
     linesofcode = 0
-    codeBlocks= {}
+    codeBlocks = {}
     print("data extraction from source code")
     for filePath in listOfFiles:
         file = open(filePath, 'r', encoding='utf-8')
         originalCode = file.readlines()
         file.close()
         if Config.granularity == 'method_level':
-      
+
             linesofcode = linesofcode + len(originalCode)
             codeBlocks = methodLevelBlocks(originalCode)
-            
+
         else:
             linesofcode = linesofcode + len(originalCode)
             codeBlocks = fileLevelBlocks(originalCode)
@@ -40,78 +41,86 @@ def extractMethodsAllFiles(listOfFiles):
             codeBlock.update({"FileInfo": filePath})
             codeBlock.update({"nloc": len(codeBlock)})
             codeBlock.update({"source_code": originalCode})
-            
+
             blocksSoFar += 1
             allFilesMethodsBlocks["CodeBlock" + str(blocksSoFar)] = codeBlock
-    
+
     granularity = Config.granularity
-    codeBlocks,codeclonelines=CloneDetector.detectClone(allFilesMethodsBlocks)
+    codeBlocks, codeclonelines = CloneDetector.detectClone(allFilesMethodsBlocks)
     print("detecting code clones")
-    previous_file_name = '/Users/vivekgoud/Downloads/thesis/'+granularity+'tracking.csv'
-    current_dataset=dataset_creation(codeBlocks)
+    previous_file_name = '/Users/vivekgoud/Downloads/thesis/' + granularity + 'tracking.csv'
+    current_dataset = dataset_creation(codeBlocks)
     print("Transforming detected code blocks into dataset")
     previous_dataset = pd.DataFrame()
-    previous_clones = pd.DataFrame(columns=['codeBlockId','codeBlock_start','codeBlock_end','codeBlock_fileinfo','codeblock_Code','codeCloneBlockId',
-                               'codeCloneBlock_Fileinfo','Similarity_Tokens','Similarity_Variable_Flow',
-                               'Similarity_MethodCall_Flow','commitinfo','nloc','Revision'])
-    if os.path.isfile(previous_file_name): #previous_file_name.exists(): 
-        previous_dataset =  pd.read_csv(previous_file_name, index_col=0)
+    previous_clones = pd.DataFrame(
+        columns=['codeBlockId', 'codeBlock_start', 'codeBlock_end', 'codeBlock_fileinfo', 'codeblock_Code',
+                 'codeCloneBlockId',
+                 'codeCloneBlock_Fileinfo', 'Similarity_Tokens', 'Similarity_Variable_Flow',
+                 'Similarity_MethodCall_Flow', 'commitinfo', 'nloc', 'Revision'])
+    if os.path.isfile(previous_file_name):  # previous_file_name.exists():
+        previous_dataset = pd.read_csv(previous_file_name, index_col=0)
         revision = previous_dataset.Revision.unique()
-        print("Revision",revision[0])
-        #previous_clones = previous_dataset[~previous_dataset.codeBlock_fileinfo.isin(current_dataset.codeBlock_fileinfo)]
-        #frames = [current_dataset,previous_clones]
+        print("Revision", revision[0])
+        # previous_clones = previous_dataset[~previous_dataset.codeBlock_fileinfo.isin(current_dataset.codeBlock_fileinfo)]
+        # frames = [current_dataset,previous_clones]
         current_dataset['Revision'] = revision[0] + 1
-        current_dataset=pd.concat([current_dataset,previous_dataset])
-        current_dataset= current_dataset.loc[current_dataset.astype(str).drop_duplicates().index]
-        
+        current_dataset = pd.concat([current_dataset, previous_dataset])
+        current_dataset = current_dataset.loc[current_dataset.astype(str).drop_duplicates().index]
+
     else:
         print("First version, no cloning result exists")
-        print("Revision",1)
+        print("Revision", 1)
         current_dataset['Revision'] = 1
 
     current_dataset = current_dataset.convert_dtypes()
-    all_columns = list(current_dataset) # Creates list of all column headers
+    all_columns = list(current_dataset)  # Creates list of all column headers
     current_dataset[all_columns] = current_dataset[all_columns].astype(str)
-    current_dataset= current_dataset.loc[current_dataset.astype(str).drop_duplicates().index]
+    current_dataset = current_dataset.loc[current_dataset.astype(str).drop_duplicates().index]
     current_dataset['datetime'] = datetime.now()
     current_dataset = current_dataset.reset_index(drop=True)
-    current_dataset=current_dataset.drop_duplicates(subset=['codeBlockId','Revision','codeCloneBlockId'],keep='last')
+    current_dataset = current_dataset.drop_duplicates(subset=['codeBlockId', 'Revision', 'codeCloneBlockId'],
+                                                      keep='last')
     current_dataset = current_dataset.reset_index(drop=True)
-    current_dataset.to_csv('/Users/vivekgoud/Downloads/thesis/'+granularity+'tracking.csv')
-        #current_dataset.to_sql('rxjava', con= engine, if_exists='append', index=False)
-        #pd.read_sql('select count(*) from rxjava', conn=engine)
-        #current_dataset.to_sql('training_onlinebookstore', con=engine, if_exists='append', index=False)"""
-   
-    return current_dataset,linesofcode,codeclonelines
+    current_dataset.to_csv('/Users/vivekgoud/Downloads/thesis/' + granularity + 'tracking.csv')
+    # current_dataset.to_sql('rxjava', con= engine, if_exists='append', index=False)
+    # pd.read_sql('select count(*) from rxjava', conn=engine)
+    # current_dataset.to_sql('training_onlinebookstore', con=engine, if_exists='append', index=False)"""
+
+    return current_dataset, linesofcode, codeclonelines
+
 
 def dataset_creation(codeBlocks):
+    df = pd.DataFrame(
+        columns=['codeBlockId', 'codeBlock_start', 'codeBlock_end', 'codeBlock_fileinfo', 'codeblock_Code',
+                 'codeCloneBlockId',
+                 'codeCloneBlock_Fileinfo', 'Similarity_Tokens', 'Similarity_Variable_Flow',
+                 'Similarity_MethodCall_Flow', 'nloc'])
 
-    df = pd.DataFrame(columns=['codeBlockId','codeBlock_start','codeBlock_end','codeBlock_fileinfo','codeblock_Code','codeCloneBlockId',
-                               'codeCloneBlock_Fileinfo','Similarity_Tokens','Similarity_Variable_Flow',
-                             'Similarity_MethodCall_Flow','nloc'])
-
-    output=[]
+    output = []
     for codeBlockId in codeBlocks:
-          codeBlock = codeBlocks[codeBlockId]
-          for codeCloneBlockData in codeBlock["CodeClones"]:
+        codeBlock = codeBlocks[codeBlockId]
+        for codeCloneBlockData in codeBlock["CodeClones"]:
             codeCloneBlockId = codeCloneBlockData["codeCandidateId"]
             codeCloneBlock = codeBlocks[codeCloneBlockId]
             codeCloneSimilarity = codeCloneBlockData["Similarity"]
-            output.append([codeBlockId,str(codeBlock["Start"]),str(codeBlock["End"]),codeBlock["FileInfo"],codeBlock["Code"],
-                        codeCloneBlockData["codeCandidateId"],codeCloneBlock["FileInfo"],str(codeCloneSimilarity[0]),
-                        str(codeCloneSimilarity[1]),str(codeCloneSimilarity[2]),str(codeBlock["nloc"])
-                      ])            
-    for index,x in enumerate(output):
-        a_row=pd.Series([x[0],x[1],x[2],x[3],x[4],x[5],x[6],x[7],x[8],x[9],x[10]],
-          index=['codeBlockId','codeBlock_start','codeBlock_end','codeBlock_fileinfo','codeblock_Code','codeCloneBlockId',
-                               'codeCloneBlock_Fileinfo','Similarity_Tokens','Similarity_Variable_Flow',
-                             'Similarity_MethodCall_Flow','nloc'])
+            output.append(
+                [codeBlockId, str(codeBlock["Start"]), str(codeBlock["End"]), codeBlock["FileInfo"], codeBlock["Code"],
+                 codeCloneBlockData["codeCandidateId"], codeCloneBlock["FileInfo"], str(codeCloneSimilarity[0]),
+                 str(codeCloneSimilarity[1]), str(codeCloneSimilarity[2]), str(codeBlock["nloc"])
+                 ])
+    for index, x in enumerate(output):
+        a_row = pd.Series([x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], x[9], x[10]],
+                          index=['codeBlockId', 'codeBlock_start', 'codeBlock_end', 'codeBlock_fileinfo',
+                                 'codeblock_Code', 'codeCloneBlockId',
+                                 'codeCloneBlock_Fileinfo', 'Similarity_Tokens', 'Similarity_Variable_Flow',
+                                 'Similarity_MethodCall_Flow', 'nloc'])
         row_df = pd.DataFrame([a_row])
-        df=df.append(row_df) 
-        #row_df = pd.DataFrame([a_row])
-        #df=df.append(row_df) 
+        df = df.append(row_df)
+        # row_df = pd.DataFrame([a_row])
+        # df=df.append(row_df)
 
     return df
+
 
 def fileLevelBlocks(originalCode):
     """
@@ -146,9 +155,11 @@ def methodLevelBlocks(originalCode):
             continue
         allCodeBlocks.append(
             {"Start": output[0][i][0], "End": output[0][i][1], "Code": output[1][i].split('\n')})
-    
+
     return allCodeBlocks
-# get all lines of code before detection 
+
+
+# get all lines of code before detection
 # get all clone code lines
 # send code blocks to dataset creation
 
@@ -194,17 +205,16 @@ def removeCommentsFromCode(originalCode):
         strippedCode.append(strippedLine)
     return strippedCode
 
+
 try:
     from configparser import ConfigParser
 except ImportError:
     from ConfigParser import ConfigParser  # ver. < 3.0
 
-
 re_string = re.escape("\"") + '.*?' + re.escape("\"")
 
 
 def getFunctions(filestring, comment_inline_pattern=".*?$"):
-
     method_string = []
     method_pos = []
     method_name = []
@@ -234,22 +244,22 @@ def getFunctions(filestring, comment_inline_pattern=".*?$"):
     for path, node in nodes:
         # print(type(node))
         # print '---------------------------------------'
-        name = '.'+node.name
+        name = '.' + node.name
         for i, var in enumerate(reversed(path)):
             # print var, i, len(path)-3
             if isinstance(var, javalang.tree.ClassDeclaration):
                 # print 'One Up:',var,var.name
-                if len(path)-3 == i:  # Top most
-                    name = '.'+var.name+check_repetition(var, var.name)+name
+                if len(path) - 3 == i:  # Top most
+                    name = '.' + var.name + check_repetition(var, var.name) + name
                 else:
-                    name = '$'+var.name+check_repetition(var, var.name)+name
+                    name = '$' + var.name + check_repetition(var, var.name) + name
             if isinstance(var, javalang.tree.ClassCreator):
                 # print 'One Up:',var,var.type.name
-                name = '$'+var.type.name + \
-                    check_repetition(var, var.type.name)+name
+                name = '$' + var.type.name + \
+                       check_repetition(var, var.type.name) + name
             if isinstance(var, javalang.tree.InterfaceDeclaration):
                 # print 'One Up:',var,var.name
-                name = '$'+var.name+check_repetition(var, var.name)+name
+                name = '$' + var.name + check_repetition(var, var.name) + name
         # print i,var,len(path)
         # print path
         # while len(path) != 0:
@@ -261,7 +271,7 @@ def getFunctions(filestring, comment_inline_pattern=".*?$"):
                 for e in t.type.dimensions:
                     dims.append("[]")
             dims = "".join(dims)
-            args.append(t.type.name+dims)
+            args.append(t.type.name + dims)
         args = ",".join(args)
 
         fqn = ("%s%s(%s)") % (package, name, args)
@@ -277,7 +287,7 @@ def getFunctions(filestring, comment_inline_pattern=".*?$"):
         # print 'INIT LINE -> ',file_string_split[init_line-1]
         # print '---------------------'
 
-        for line in file_string_split[init_line-1:]:
+        for line in file_string_split[init_line - 1:]:
             # if len(line) == 0:
             #     continue
             # print '+++++++++++++++++++++++++++++++++++++++++++++++++++'
@@ -324,7 +334,7 @@ def check_repetition(node, name):
             if value == -1:
                 return ''
             else:
-                return '_'+str(value)
+                return '_' + str(value)
         else:
             i += 1
         if n == name:
@@ -333,7 +343,7 @@ def check_repetition(node, name):
     if before == -1:
         return ''
     else:
-        return '_'+str(before)
+        return '_' + str(before)
 
 
 def method_extractor(file):
@@ -345,13 +355,13 @@ def method_extractor(file):
     config = ConfigParser()
 
     # parse existing file
-    #try:
-     #   config.read(os.path.join(os.path.dirname(
-      #      os.path.abspath(__file__)), 'config.ini'))
-    #except IOError:
-     #   print('ERROR - Config settings not found. Usage: $python this-script.py config-file.ini')
-      #  sys.exit()
-  
+    # try:
+    #   config.read(os.path.join(os.path.dirname(
+    #      os.path.abspath(__file__)), 'config.ini'))
+    # except IOError:
+    #   print('ERROR - Config settings not found. Usage: $python this-script.py config-file.ini')
+    #  sys.exit()
+
     separators = "; . [ ] ( ) ~ ! - + & * / % < > ^ | ? { } = # , \" \\ : $ ' ` @"
     comment_inline = "#"
     comment_inline_pattern = comment_inline + '.*?$'

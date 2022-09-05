@@ -1,7 +1,7 @@
 dirPath = "/Users/vivekgoud/Documents/GitHub/Test_project_Codeclonetracer"
-#dirPath = "F:\8th-Sem-Project\src\examples\Single"
-#outputPath = "F:\8th-Sem-Project\src\CodeCloneDetection\output.txt"
-#outputCSVPath = "F:\8th-Sem-Project\src\CodeCloneDetection\clonesDetected.csv"
+# dirPath = "F:\8th-Sem-Project\src\examples\Single"
+# outputPath = "F:\8th-Sem-Project\src\CodeCloneDetection\output.txt"
+# outputCSVPath = "F:\8th-Sem-Project\src\CodeCloneDetection\clonesDetected.csv"
 # This will be used as level for output into file
 # 0 means everything
 # 1 means current block's code and only clone blocks info
@@ -26,4 +26,3 @@ dataFlowSimilaritythreshold = 0.65
 
 # Block level can be 0 = (file level) or 1 = (method level)
 granularity = 'method_level'
-

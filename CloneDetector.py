@@ -21,7 +21,7 @@ def getMostFrequent(dict_freq, threshold=1):
     lst_token_freq = sorted(
         dict_freq.items(), key=lambda kv: kv[1], reverse=True)
     lst_token = []
-    for idx in range(math.ceil(len(lst_token_freq)*threshold)):
+    for idx in range(math.ceil(len(lst_token_freq) * threshold)):
         if idx >= len(lst_token_freq):
             break
         lst_token.append(lst_token_freq[idx][0])
@@ -52,7 +52,7 @@ def detectClone(codeBlocks):
         codeBlock.update({"Tokens": dict_tokens})
         codeBlock.update({"Variables_Scope": variable_scope})
         codeBlock.update({"Method_Calls_Scope": method_calls_scope})
-    
+
     codeclonelines = 0
 
     for codeBlockId in codeBlocks:
@@ -63,7 +63,7 @@ def detectClone(codeBlocks):
         method_calls_scope = codeBlock["Method_Calls_Scope"]
 
         codeCloneIds = []
-        
+
         for codeCandidateId in codeBlocks:
             if codeCandidateId == codeBlockId:
                 continue
@@ -86,11 +86,12 @@ def detectClone(codeBlocks):
                 if variableSimilarityByDataFlow >= Config.similarityDataFlowThreshold and methodCallSimilarityByDataFlow >= Config.similarityDataFlowThreshold:
                     codeclonelines = codeclonelines + len(codeCandidateBlock['Code'])
                     codeCloneIds.append(
-                        {"Similarity": [simTokens, variableSimilarityByDataFlow, methodCallSimilarityByDataFlow], "codeCandidateId": codeCandidateId})
-        
+                        {"Similarity": [simTokens, variableSimilarityByDataFlow, methodCallSimilarityByDataFlow],
+                         "codeCandidateId": codeCandidateId})
+
         codeBlock.update({"CodeClones": codeCloneIds})
-    
-    return codeBlocks,codeclonelines
+
+    return codeBlocks, codeclonelines
 
 
 def getAllTokens(code):
@@ -130,8 +131,8 @@ def getAllTokens(code):
                     list_variables.append(list_variableName[-1])
                     list_tokens.append("TOKEN_VARIABLE")
 
-    dict_tokens =getFrequencyFromList(list_tokens)
-    dict_variables =getFrequencyFromList(list_variables)
+    dict_tokens = getFrequencyFromList(list_tokens)
+    dict_variables = getFrequencyFromList(list_variables)
     dict_methods = getFrequencyFromList(list_methods)
 
     return dict_tokens, dict_variables, dict_methods
@@ -155,4 +156,4 @@ def similarity(Tokens1, Tokens2):
         tokens1 += Tokens1[key]
     for key in Tokens2Keys:
         tokens2 += Tokens2[key]
-    return (tokensIntersect)/(tokens1 + tokens2 - tokensIntersect)
+    return (tokensIntersect) / (tokens1 + tokens2 - tokensIntersect)

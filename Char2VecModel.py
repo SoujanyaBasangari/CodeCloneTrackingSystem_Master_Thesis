@@ -2,7 +2,9 @@ import numpy as np
 import pickle
 import keras
 import os
-from keras.preprocessing.sequence  import pad_sequences 
+from keras.preprocessing.sequence import pad_sequences
+
+
 class Chars2Vec:
 
     def __init__(self, emb_dim, char_to_ix):
@@ -43,7 +45,6 @@ class Chars2Vec:
 
         self.model = keras.models.Model(inputs=[model_input_1, model_input_2], outputs=model_output)
         self.model.compile(optimizer='adam', loss='mae')
-
 
     def fit(self, word_pairs, targets,
             max_epochs, patience, validation_split, batch_size):
@@ -186,7 +187,7 @@ def load_model(path):
     :return c2v_model: Chars2Vec object, trained model.
     '''
 
-    if path in ['eng_50', 'eng_100', 'eng_150', 'eng_200', 'eng_300','trained_model']:
+    if path in ['eng_50', 'eng_100', 'eng_150', 'eng_200', 'eng_300', 'trained_model']:
         path_to_model = os.path.dirname(os.path.abspath(__file__)) + '/trained_models/' + path
 
     else:
@@ -221,8 +222,8 @@ def train_model(emb_dim, X_train, y_train, model_chars,
     '''
 
     if not isinstance(X_train, list) and not isinstance(X_train, np.ndarray):
-        raise TypeError("parameter 'X_train' must be a list or numpy.ndarray")\
-
+        raise TypeError("parameter 'X_train' must be a list or numpy.ndarray") \
+ \
     if not isinstance(y_train, list) and not isinstance(y_train, np.ndarray):
         raise TypeError("parameter 'y_train' must be a list or numpy.ndarray")
 
@@ -237,4 +238,4 @@ def train_model(emb_dim, X_train, y_train, model_chars,
 
     return c2v_model
 
-#https://machinelearningmastery.com/develop-character-based-neural-language-model-keras/
+# https://machinelearningmastery.com/develop-character-based-neural-language-model-keras/

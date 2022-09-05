@@ -8,8 +8,7 @@ def detectClone(codeBlocks):
             if ch in (' ', '\n', '\t'):
                 continue
             hashValue += ord(ch)
-        codeBlock.update({"HashValue":hashValue})
-
+        codeBlock.update({"HashValue": hashValue})
 
     for codeBlockId in codeBlocks:
         codeBlock = codeBlocks[codeBlockId]
@@ -20,13 +19,14 @@ def detectClone(codeBlocks):
                 continue
             if cloneVerification(codeBlock, codeBlocks[codeCandidateId]["Code"]):
                 codeCloneIds.append(codeCandidateId)
-        codeBlock.update({"CodeClones" :codeCloneIds})
+        codeBlock.update({"CodeClones": codeCloneIds})
     return codeBlocks
+
 
 def cloneVerification(Code1, Code2):
     """
     input : two list of code
     output : if two code are clones or not 
     """
-    
+
     return True

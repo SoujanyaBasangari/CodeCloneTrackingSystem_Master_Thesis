@@ -55,22 +55,22 @@ def stringMatching(str1, str2):
 #     return dp[m][n]
 
 def checkForParenthesis(method_lines, lst_line, i):
-    assert(len(method_lines) > 0)
+    assert (len(method_lines) > 0)
     if '{' in lst_line:
         return method_lines
 
     else:
-        k = i+1
-        for next_line in method_lines[i+1:]:
+        k = i + 1
+        for next_line in method_lines[i + 1:]:
             next_line = next_line.strip()
-            #print(k, next_line)
-            if(len(next_line) > 0):
+            # print(k, next_line)
+            if (len(next_line) > 0):
                 if '{' == next_line[0]:
                     return method_lines
                 else:
-                    #print(next_line, "++++++" + next_line[-1] + "+++++")
+                    # print(next_line, "++++++" + next_line[-1] + "+++++")
                     if ';' == next_line[-1]:
-                        #print("========", next_line, method_lines[k])
+                        # print("========", next_line, method_lines[k])
                         method_lines[k] = method_lines[k] + " } "
                         method_lines[i] = method_lines[i] + " { "
                         return method_lines
@@ -85,7 +85,7 @@ def parenthesisBalancer(method_lines):
 
         for j, unit in enumerate(lst_line):
             if unit in keywords:
-                #print(j, unit)
+                # print(j, unit)
                 method_lines = checkForParenthesis(
                     method_lines, lst_line, i)
                 # print(method_lines)
@@ -96,7 +96,7 @@ def parenthesisBalancer(method_lines):
 
 
 def getSimilarity(m1_v_scope=[], m1_mc_scope=[], m2_v_scope=[], m2_mc_scope=[], clonesInfo=[]):
-    #m1_v_scope = [["n", "1global 2iteration 1global"], ["temp",]]
+    # m1_v_scope = [["n", "1global 2iteration 1global"], ["temp",]]
     dataFlowSimilaritythreshold = 0.95
     clone_count_variables, total_count_variables = 0, max(
         len(m1_v_scope), len(m2_v_scope))
@@ -114,21 +114,21 @@ def getSimilarity(m1_v_scope=[], m1_mc_scope=[], m2_v_scope=[], m2_mc_scope=[], 
 
         # if(v_len1 == 0 or v_len2 == 0):
         # [["temp", "1global 2selection"]]
-        #if min(v_len1, v_len2) / max(v_len1, v_len2) >= Config.dataFlowSimilaritythreshold:
+        # if min(v_len1, v_len2) / max(v_len1, v_len2) >= Config.dataFlowSimilaritythreshold:
         if max(v_len1, v_len2) > 0:
-          if min(v_len1, v_len2) / max(v_len1, v_len2) >= dataFlowSimilaritythreshold:
-            similarity = stringMatching(m1_v_scope[i][1], m2_v_scope[j][1])
+            if min(v_len1, v_len2) / max(v_len1, v_len2) >= dataFlowSimilaritythreshold:
+                similarity = stringMatching(m1_v_scope[i][1], m2_v_scope[j][1])
 
-            #if(similarity >= Config.dataFlowSimilaritythreshold):
-            if(similarity >= dataFlowSimilaritythreshold):
-                clone_count_variables += 1
+                # if(similarity >= Config.dataFlowSimilaritythreshold):
+                if (similarity >= dataFlowSimilaritythreshold):
+                    clone_count_variables += 1
 
-            i += 1
-            j += 1
-          elif v_len1 > v_len2:
-            i += 1
-          else:
-            j += 1
+                i += 1
+                j += 1
+            elif v_len1 > v_len2:
+                i += 1
+            else:
+                j += 1
 
     i = 0
     j = 0
@@ -137,36 +137,36 @@ def getSimilarity(m1_v_scope=[], m1_mc_scope=[], m2_v_scope=[], m2_mc_scope=[], 
         mc_len1 = len(m1_mc_scope[i][1].split())
         mc_len2 = len(m2_mc_scope[j][1].split())
 
-        #if min(mc_len1, mc_len2) / max(mc_len1, mc_len2) >= Config.dataFlowSimilaritythreshold:
+        # if min(mc_len1, mc_len2) / max(mc_len1, mc_len2) >= Config.dataFlowSimilaritythreshold:
         if max(mc_len1, mc_len2) > 0:
-          if min(mc_len1, mc_len2) / max(mc_len1, mc_len2) >= dataFlowSimilaritythreshold:
-            similarity = stringMatching(m1_mc_scope[i][1], m2_mc_scope[j][1])
-            if similarity >= dataFlowSimilaritythreshold:
-            #if similarity >= Config.dataFlowSimilaritythreshold:
-                clone_count_method_calls += 1
-            i += 1
-            j += 1
-          elif mc_len1 > mc_len2:
-            i += 1
-          else:
-            j += 1
+            if min(mc_len1, mc_len2) / max(mc_len1, mc_len2) >= dataFlowSimilaritythreshold:
+                similarity = stringMatching(m1_mc_scope[i][1], m2_mc_scope[j][1])
+                if similarity >= dataFlowSimilaritythreshold:
+                    # if similarity >= Config.dataFlowSimilaritythreshold:
+                    clone_count_method_calls += 1
+                i += 1
+                j += 1
+            elif mc_len1 > mc_len2:
+                i += 1
+            else:
+                j += 1
 
     similarityVariables = clone_count_variables / \
-        total_count_variables if total_count_variables != 0 else 1
+                          total_count_variables if total_count_variables != 0 else 1
     similarityMethods = clone_count_method_calls / \
-        total_count_method_calls if total_count_method_calls != 0 else 1
+                        total_count_method_calls if total_count_method_calls != 0 else 1
 
     return similarityVariables, similarityMethods
 
 
 def dataFlowGenerator(method_lines, identifiers, method_calls, file_info):
-    #print("identfiers ", identifiers)
+    # print("identfiers ", identifiers)
     identifier_scope = [[identifiers[i], ""] for i in range(len(identifiers))]
     method_calls_scope = [[method_calls[i], ""]
                           for i in range(len(method_calls))]
 
-    assert(len(identifiers) == len(identifier_scope))
-    assert(len(method_calls) == len(method_calls_scope))
+    assert (len(identifiers) == len(identifier_scope))
+    assert (len(method_calls) == len(method_calls_scope))
 
     scope_stack, parenthesis_stack = [], []
     level = 0
@@ -189,7 +189,7 @@ def dataFlowGenerator(method_lines, identifiers, method_calls, file_info):
                           "INTEGER_LITERAL", unit)
 
             for keyword in keywords:
-                if(unit == keyword):
+                if (unit == keyword):
                     scope = cf_mapping[keyword]
                     break
 
@@ -201,16 +201,16 @@ def dataFlowGenerator(method_lines, identifiers, method_calls, file_info):
             if unit == '}':
                 # print(scope_stack)
                 # print(parenthesis_stack)
-                if(len(scope_stack)):
+                if (len(scope_stack)):
                     scope_stack.pop()
-                if(len(scope_stack) > 0):
+                if (len(scope_stack) > 0):
                     scope = scope_stack[-1]
-                if(len(parenthesis_stack) > 0):
+                if (len(parenthesis_stack) > 0):
                     parenthesis_stack.pop()
                 level -= 1
 
             for identifier in identifiers:
-                if(identifier == unit):
+                if (identifier == unit):
                     index = identifiers.index(identifier)
 
                     # if(len(identifier_scope[index]) == 0):
@@ -219,10 +219,10 @@ def dataFlowGenerator(method_lines, identifiers, method_calls, file_info):
 
                     # else:
                     identifier_scope[index][1] = identifier_scope[index][1] + \
-                        " " + str(level) + scope
+                                                 " " + str(level) + scope
 
             for method_call in method_calls:
-                if(method_call == unit):
+                if (method_call == unit):
                     index = method_calls.index(method_call)
 
                     # if(len(method_calls_scope[index]) == 0):

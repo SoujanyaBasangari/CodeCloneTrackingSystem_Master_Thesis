@@ -45,7 +45,6 @@ class Chars2Vec:
         self.model = keras.models.Model(inputs=[model_input_1, model_input_2], outputs=model_output)
         self.model.compile(optimizer='adam', loss='mae')
 
-
     def fit(self, word_pairs, targets,
             max_epochs, patience, validation_split, batch_size):
         '''
@@ -222,8 +221,8 @@ def train_model(emb_dim, X_train, y_train, model_chars,
     '''
 
     if not isinstance(X_train, list) and not isinstance(X_train, np.ndarray):
-        raise TypeError("parameter 'X_train' must be a list or numpy.ndarray")\
-
+        raise TypeError("parameter 'X_train' must be a list or numpy.ndarray") \
+ \
     if not isinstance(y_train, list) and not isinstance(y_train, np.ndarray):
         raise TypeError("parameter 'y_train' must be a list or numpy.ndarray")
 

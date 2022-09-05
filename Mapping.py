@@ -5,7 +5,7 @@ transient catch extends int short try char final interface static void
 class finally long strictfp volatile const float native super while String
 STRING_LITERAL INTEGER_LITERAL
 """.split()
-mapping = { keywordsList[i] : "TOKEN" + str(i) for i in range(0, len(keywordsList) ) }
+mapping = {keywordsList[i]: "TOKEN" + str(i) for i in range(0, len(keywordsList))}
 keywords = {keywordsList[i]: keywordsList[i]
             for i in range(0, len(keywordsList))}
 symbols = ["", "+", "-", "*", "/", " ", "{", "}", ";", ":", ".",

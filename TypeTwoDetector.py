@@ -1,9 +1,11 @@
 import re
 import Mapping
+
+
 def detectClone(codeBlocks):
     for codeBlockId in codeBlocks:
         codeBlock = codeBlocks[codeBlockId]
-        code = codeBlock['Code']  
+        code = codeBlock['Code']
         list_tokens = []
         for line in code:
             line = re.sub(r"(\".*?\"|\'.*?\')", "STRING_LITERAL", line)
@@ -21,7 +23,7 @@ def detectClone(codeBlocks):
                     list_tokens.append(Mapping.mapping[unit])
                 else:
                     list_tokens.append("TOKEN")
-        
+
         dict_tokens = {}
         for token in list_tokens:
             if token in dict_tokens.keys():
@@ -39,8 +41,9 @@ def detectClone(codeBlocks):
                 continue
             if cloneVerification(tokens, codeBlocks[codeCandidateId]["Tokens"]):
                 codeCloneIds.append(codeCandidateId)
-        codeBlock.update({"CodeClones" :codeCloneIds})
+        codeBlock.update({"CodeClones": codeCloneIds})
     return codeBlocks
+
 
 def cloneVerification(Tokens1, Tokens2):
     """
@@ -49,7 +52,7 @@ def cloneVerification(Tokens1, Tokens2):
     """
     if len(Tokens1.keys()) != len(Tokens2.keys()):
         return False
-    
+
     for key in Tokens1.keys():
         if (key not in Tokens2.keys() or Tokens1[key] != Tokens2[key]) and key != "TOKEN":
             return False
