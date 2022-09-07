@@ -4,7 +4,7 @@ import keras
 import os
 
 
-class Chars2Vec:
+class chars2vecmodel:
 
     def __init__(self, emb_dim, char_to_ix):
         '''
@@ -180,13 +180,13 @@ def load_model(path):
     '''
     Loads trained model.
 
-    :param path: str, if it is 'eng_50', 'eng_100', 'eng_150', 'eng_200' or 'eng_300' then loads one of default models,
+    :param path: str, if it is 'eng_50', 'ccmodel', 'eng_150', 'eng_200' or 'eng_300' then loads one of default models,
      else loads model from `path`.
 
     :return c2v_model: Chars2Vec object, trained model.
     '''
 
-    if path in ['eng_50', 'eng_100', 'eng_150', 'eng_200', 'eng_300']:
+    if path in ['eng_50', 'ccmodel', 'eng_150', 'eng_200', 'eng_300']:
         path_to_model = os.path.dirname(os.path.abspath(__file__)) + '/trained_models/' + path
 
     else:
@@ -196,7 +196,7 @@ def load_model(path):
         structure = pickle.load(f)
         emb_dim, char_to_ix = structure[0], structure[1]
 
-    c2v_model = Chars2Vec(emb_dim, char_to_ix)
+    c2v_model = chars2vecmodel(emb_dim, char_to_ix)
     c2v_model.embedding_model.load_weights(path_to_model + '/weights.h5')
     c2v_model.embedding_model.compile(optimizer='adam', loss='mae')
 
@@ -230,7 +230,7 @@ def train_model(emb_dim, X_train, y_train, model_chars,
         raise TypeError("parameter 'model_chars' must be a list or numpy.ndarray")
 
     char_to_ix = {ch: i for i, ch in enumerate(model_chars)}
-    c2v_model = Chars2Vec(emb_dim, char_to_ix)
+    c2v_model = chars2vecmodel(emb_dim, char_to_ix)
 
     targets = [float(el) for el in y_train]
     c2v_model.fit(X_train, targets, max_epochs, patience, validation_split, batch_size)

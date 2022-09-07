@@ -1,7 +1,7 @@
 import sys
 sys.path.append('//Users/vivekgoud/Documents/GitHub/CodeCloneTrackingSystem_Master_Thesis')
 
-import src.chars2vec
+import chars2vecmodel
 import sklearn.decomposition
 import matplotlib.pyplot as plt
 import numpy
@@ -26,7 +26,7 @@ def clonetracingModel(df):
     df = df.drop_duplicates(subset=['codeBlockId', 'Revision', 'codeCloneBlockId'], keep='last')
     df["unique"] = "R1" + df["Revision"].astype(str) + df["codeBlockId"]
     df = df.reset_index(drop=True)
-    c2v_model = src.chars2vec.load_model('eng_300')
+    c2v_model = chars2vecmodel.load_model('ccmodel')
 
     preprocessed_dataset = df[
         ['codeBlockId', 'codeblock_Code', 'Revision', 'codeBlock_start', 'codeBlock_end', 'codeBlock_fileinfo',
