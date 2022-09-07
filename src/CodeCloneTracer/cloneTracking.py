@@ -1,4 +1,7 @@
-import chars2vec
+import sys
+sys.path.append('//Users/vivekgoud/Documents/GitHub/CodeCloneTrackingSystem_Master_Thesis')
+
+import src.chars2vec
 import sklearn.decomposition
 import matplotlib.pyplot as plt
 import numpy
@@ -23,7 +26,7 @@ def clonetracingModel(df):
     df = df.drop_duplicates(subset=['codeBlockId', 'Revision', 'codeCloneBlockId'], keep='last')
     df["unique"] = "R1" + df["Revision"].astype(str) + df["codeBlockId"]
     df = df.reset_index(drop=True)
-    c2v_model = chars2vec.load_model('eng_300')
+    c2v_model = src.chars2vec.load_model('eng_300')
 
     preprocessed_dataset = df[
         ['codeBlockId', 'codeblock_Code', 'Revision', 'codeBlock_start', 'codeBlock_end', 'codeBlock_fileinfo',
@@ -44,7 +47,6 @@ def clonetracingModel(df):
 
     # clustering
     thresh = 1.5
-    # clusters = hcluster.fclusterdata(numpy.asarray([numpy.array(xi) for xi in data['emdedding_codeblock_Code']]), thresh, criterion="distance")
     clusters = hcluster.fclusterdata(manhattan_distance_df, thresh, criterion="distance")
 
     data['clonesets'] = clusters
@@ -55,7 +57,12 @@ def clonetracingModel(df):
     indices = cluster_indices(clusters)
     for k, ind in enumerate(indices):
         print("cloneset", k + 1, "is", ind)
-
+    
+    with open('tracking_result.txt', 'w') as f:
+        for k, ind in enumerate(indices):
+            f.write("cloneset", k + 1, ":") 
+            f.write('\t',data.iloc[ind]['unique'].to_list())
+    
     final_dataframe = pd.merge(data, df, on='unique', how='inner')
 
     return final_dataframe
@@ -72,14 +79,9 @@ def analysis_creating_report(final_dataframe, total_files, cloning_percentage):
     output = output.drop_duplicates(subset=['unique'], keep='last')
     output = output.sort_values('Revision')
 
-    # TEST
-    # N = 1
-    # output = output.iloc[:-N , :]
-    # TEST
-
     output['codeBlockId'] = output['codeBlockId'].str.replace('CodeBlock', '')
     output["codeBlockId"] = output["codeBlockId"].astype(int)
-    # output['Revision'] = output['Revision'].str.replace('R', '')
+    output['Revision'] = output['Revision'].str.replace('R', '')
     output["Revision"] = output["Revision"].astype(int)
 
     idx = output.index
@@ -127,9 +129,86 @@ def analysis_creating_report(final_dataframe, total_files, cloning_percentage):
     output['disappearing_clone_diffs'] = output['disappearing_clone_diffs'].replace(-1.0, 'disappearing_clone')
     output = output.drop(columns=['disappearing_clone'])
     output['disappearing_clone_diffs'] = output['disappearing_clone_diffs'].fillna('disappearing_clone')
+    output = output.drop(output[(output['disappearing_clone_diffs'] == 0.0) & (output['status'] == 2)].index)
     output.reindex(idx)
     output = output.sort_values('Revision')
-    # output.to_excel('analysis1.xlsx')
-    # output.head(50)
+    
+    with open('tracking_result.txt', 'w') as f:
+        
+        f.write("cloning_percentage = "+cloning_percentage + "\n")
+
+        f.write("FILE LEVEL INFORMATION")
+
+        f.write("total_files = " + total_files + "\n")
+        maxvalue=output['Revision'].max()
+        final_revision = output[output.Revision == 4]
+        f.write("final_revision = " + final_revision + "\n" )
+
+        maxvalue=output['Revision'].max()
+        final_revision = output[output.Revision == maxvalue]
+
+        files_containing_clones = len(pd.unique(final_revision['codeBlock_fileinfo']))#final_revision.codeBlock_fileinfo.count()
+        f.write("files_containing_clones",files_containing_clones+ "\n")
+
+
+        added_files = len(pd.unique(final_revision[final_revision['status']== 'new']['codeBlock_fileinfo']))#
+
+        f.write("added_files",added_files+ "\n")
+
+        deleted_files_df = final_revision[(final_revision.disappearing_clone_diffs == 'disappearing_clone') & (final_revision.status == 2)]
+
+        deleted_files =  len(pd.unique(deleted_files_df.codeBlock_fileinfo))
+
+        f.write("deleted_files",deleted_files+ "\n")
+
+        f.write("CLONESETS INFORMATION")
+
+        total_clone_sets = len(pd.unique(final_revision.clonesets))
+
+        f.write("total_clone_sets",total_clone_sets+ "\n")
+
+        stable_clonesets = len(pd.unique(final_revision[final_revision['status']== 'stable']['clonesets']))
+
+        f.write("stable_clonesets",stable_clonesets+ "\n")
+
+        new_clonesets = len(pd.unique(final_revision[final_revision['status']== 'new']['clonesets']))
+
+        f.write("new_clonesets",new_clonesets+ "\n")
+
+        deleted_clonesets = len(pd.unique(final_revision[(final_revision.disappearing_clone_diffs == 'disappearing_clone') & (final_revision.status == 2)]['clonesets']))
+
+        f.write("deleted_clonesets",deleted_clonesets+ "\n")
+
+        final_revision['status']=final_revision['status'].astype(str)
+
+        changed_clonesets = len(pd.unique(final_revision[final_revision['status'].str.contains('Modified')]['clonesets']))
+
+        f.write("changed_clonesets",changed_clonesets+ "\n")
+
+        f.write("CODECLONES INFORMATION")
+
+        total_codeclones= len(pd.unique(final_revision.codeBlockId))
+
+        f.write("total_codeclones",total_codeclones+ "\n")
+
+        stable_codeclones = len(pd.unique(final_revision[final_revision['status']== 'stable']['codeBlockId']))
+
+        f.write("stable_codeclones",stable_codeclones+ "\n")
+
+        new_codeclones = len(pd.unique(final_revision[final_revision['status']== 'new']['codeBlockId']))
+
+        f.write("new_codeclones",new_codeclones+ "\n")
+
+        deleted_codeclones = len(pd.unique(final_revision[(final_revision.disappearing_clone_diffs == 'disappearing_clone') & (final_revision.status == 2)]['codeBlockId']))
+
+        f.write("deleted_codeclones",deleted_codeclones+ "\n")
+
+        changed_codeclones = len(pd.unique(final_revision[final_revision['status'].str.contains('Modified')]['codeBlockId']))
+
+        f.write("changed_codeclones",changed_codeclones+ "\n")
+
+        f.write('\n' )
+        f.close()
+
     return output
-# output.head(50)
+

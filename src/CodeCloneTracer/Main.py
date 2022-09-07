@@ -37,3 +37,9 @@ print("check tracking.txt for latest report")
 #pip install fuzzywuzzy
 #pip install pandas
 #pip install javalang
+
+#pip install virtualenv
+
+# virtualenv ENV
+
+# source ENV/bin/activate
