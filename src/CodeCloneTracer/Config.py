@@ -1,4 +1,6 @@
-dirPath = "/Users/vivekgoud/Documents/GitHub/Test_project_Codeclonetracer"
+dirPath = "/Users/soujanya basangari/Documents/Theses final code/Test_project_Codeclonetracer-main/Test_project_Codeclonetracer-main"
+
+
 # dirPath = "F:\8th-Sem-Project\src\examples\Single"
 # outputPath = "F:\8th-Sem-Project\src\CodeCloneDetection\output.txt"
 # outputCSVPath = "F:\8th-Sem-Project\src\CodeCloneDetection\clonesDetected.csv"

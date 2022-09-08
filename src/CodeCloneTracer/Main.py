@@ -7,7 +7,7 @@ import cloneTracking
 # save char2vec with diff name and load clustering model pickle file
 # allFilesData is list which have all files with specific extension
 print("Getting all file info from folder")
-dirPath = "/Users/vivekgoud/Documents/GitHub/Test_project_Codeclonetracer/onlinebookstore-J2EE/"
+dirPath = "C:/Users/soujanya basangari/Documents/Theses final code/Test_project_Codeclonetracer-main/Test_project_Codeclonetracer-main/onlinebookstore-J2EE"
 allFilesData= data_extraction.getAllFilesUsingFolderPath(dirPath)
 
 print("Extracting methods from files",len(allFilesData),"total_files")
@@ -17,11 +17,11 @@ print("load transformed dataset to ML model")
 
 total_files=len(allFilesData)
 
-ml_dataset = cloneTracking.clonetracingModel(current_dataset)
+ml_dataset,indices= cloneTracking.clonetracingModel(current_dataset)
 
 cloning_percentage = (codeclonelines/linesofcode)*100
 
-tracking_result = cloneTracking.analysis_creating_report(ml_dataset,total_files,cloning_percentage)
+tracking_result = cloneTracking.analysis_creating_report(ml_dataset,total_files,cloning_percentage,indices )
 
 print("check tracking.txt for latest report")
 

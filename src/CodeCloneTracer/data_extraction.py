@@ -48,7 +48,7 @@ def extractMethodsAllFiles(listOfFiles):
     granularity = Config.granularity
     codeBlocks, codeclonelines = CloneDetector.detectClone(allFilesMethodsBlocks)
     print("detecting code clones")
-    previous_file_name = '/Users/vivekgoud/Downloads/thesis/' + granularity + 'tracking.csv'
+    previous_file_name = 'C:/Users/soujanya basangari/Documents/Theses final code/Test_project_Codeclonetracer-main/Test_project_Codeclonetracer-main/'+ granularity + 'tracking.csv'
     current_dataset = dataset_creation(codeBlocks)
     print("Transforming detected code blocks into dataset")
     previous_dataset = pd.DataFrame()
@@ -81,7 +81,7 @@ def extractMethodsAllFiles(listOfFiles):
     current_dataset = current_dataset.drop_duplicates(subset=['codeBlockId', 'Revision', 'codeCloneBlockId'],
                                                       keep='last')
     current_dataset = current_dataset.reset_index(drop=True)
-    current_dataset.to_csv('/Users/vivekgoud/Downloads/thesis/' + granularity + 'tracking.csv')
+    current_dataset.to_csv('C:/Users/soujanya basangari/Documents/Theses final code/Test_project_Codeclonetracer-main/Test_project_Codeclonetracer-main/'+ granularity + 'tracking.csv')
     # current_dataset.to_sql('rxjava', con= engine, if_exists='append', index=False)
     # pd.read_sql('select count(*) from rxjava', conn=engine)
     # current_dataset.to_sql('training_onlinebookstore', con=engine, if_exists='append', index=False)"""

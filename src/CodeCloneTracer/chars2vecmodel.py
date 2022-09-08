@@ -2,8 +2,9 @@ import numpy as np
 import pickle
 import keras
 import os
-
-
+import keras_preprocessing
+import keras
+from keras_preprocessing.sequence import pad_sequences
 class chars2vecmodel:
 
     def __init__(self, emb_dim, char_to_ix):
@@ -100,8 +101,8 @@ class chars2vecmodel:
 
             x_2.append(np.array(emb_list_2))
 
-        x_1_pad_seq = keras.preprocessing.sequence.pad_sequences(x_1)
-        x_2_pad_seq = keras.preprocessing.sequence.pad_sequences(x_2)
+        x_1_pad_seq = keras_preprocessing.sequence.pad_sequences(x_1)
+        x_2_pad_seq = keras_preprocessing.sequence.pad_sequences(x_2)
 
         self.model.fit([x_1_pad_seq, x_2_pad_seq], targets,
                        batch_size=batch_size, epochs=max_epochs,
@@ -148,7 +149,7 @@ class chars2vecmodel:
 
                 list_of_embeddings.append(np.array(current_embedding))
 
-            embeddings_pad_seq = keras.preprocessing.sequence.pad_sequences(list_of_embeddings, maxlen=maxlen_padseq)
+            embeddings_pad_seq =  keras_preprocessing.sequence.pad_sequences(list_of_embeddings, maxlen=maxlen_padseq)
             new_words_vectors = self.embedding_model.predict([embeddings_pad_seq])
 
             for i in range(len(new_words)):
@@ -188,7 +189,7 @@ def load_model(path):
 
     if path in ['eng_50', 'ccmodel', 'eng_150', 'eng_200', 'eng_300']:
         path_to_model = os.path.dirname(os.path.abspath(__file__)) + '/trained_models/' + path
-
+        print(path_to_model)
     else:
         path_to_model = path
 
