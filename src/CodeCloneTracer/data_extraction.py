@@ -376,7 +376,7 @@ def method_extractor(file):
 def getAllFilesUsingFolderPath(folderPath):
     allFilesInFolder = []
     fileCount = 0
-    maxCount = 100
+   # maxCount = 100
     for subdir, dirs, files in os.walk(folderPath):
         for fileName in files:
             fileCount += 1
@@ -384,6 +384,6 @@ def getAllFilesUsingFolderPath(folderPath):
                 continue
             fileFullPath = os.path.join(subdir, fileName)
             allFilesInFolder.append(fileFullPath)
-            if fileCount > maxCount:
-                break
+            #if fileCount > maxCount:
+             #   break
     return allFilesInFolder
