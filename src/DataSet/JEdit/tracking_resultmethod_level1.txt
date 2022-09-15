@@ -1,0 +1,1120 @@
+cloneset1
+['R1CodeBlock3712']
+
+cloneset2
+['R1CodeBlock4093']
+
+cloneset3
+['R1CodeBlock4092']
+
+cloneset4
+['R1CodeBlock4847']
+
+cloneset5
+['R1CodeBlock4846']
+
+cloneset6
+['R1CodeBlock249']
+
+cloneset7
+['R1CodeBlock2891']
+
+cloneset8
+['R1CodeBlock439', 'R1CodeBlock490']
+
+cloneset9
+['R1CodeBlock4870', 'R1CodeBlock4869', 'R1CodeBlock4867', 'R1CodeBlock4865', 'R1CodeBlock4863', 'R1CodeBlock4862', 'R1CodeBlock4861', 'R1CodeBlock4860', 'R1CodeBlock4859', 'R1CodeBlock4858', 'R1CodeBlock4857', 'R1CodeBlock4851', 'R1CodeBlock4850']
+
+cloneset10
+['R1CodeBlock2615', 'R1CodeBlock2636', 'R1CodeBlock2637', 'R1CodeBlock2648']
+
+cloneset11
+['R1CodeBlock2793']
+
+cloneset12
+['R1CodeBlock3599', 'R1CodeBlock3588']
+
+cloneset13
+['R1CodeBlock1467']
+
+cloneset14
+['R1CodeBlock491']
+
+cloneset15
+['R1CodeBlock3587', 'R1CodeBlock3579']
+
+cloneset16
+['R1CodeBlock3068']
+
+cloneset17
+['R1CodeBlock4805']
+
+cloneset18
+['R1CodeBlock4230', 'R1CodeBlock4270']
+
+cloneset19
+['R1CodeBlock2848']
+
+cloneset20
+['R1CodeBlock2852']
+
+cloneset21
+['R1CodeBlock2959']
+
+cloneset22
+['R1CodeBlock3289']
+
+cloneset23
+['R1CodeBlock2950']
+
+cloneset24
+['R1CodeBlock733', 'R1CodeBlock336']
+
+cloneset25
+['R1CodeBlock403', 'R1CodeBlock404']
+
+cloneset26
+['R1CodeBlock586']
+
+cloneset27
+['R1CodeBlock4836', 'R1CodeBlock4873']
+
+cloneset28
+['R1CodeBlock3303', 'R1CodeBlock3111']
+
+cloneset29
+['R1CodeBlock980']
+
+cloneset30
+['R1CodeBlock1478']
+
+cloneset31
+['R1CodeBlock4582']
+
+cloneset32
+['R1CodeBlock721', 'R1CodeBlock589', 'R1CodeBlock734']
+
+cloneset33
+['R1CodeBlock723']
+
+cloneset34
+['R1CodeBlock812']
+
+cloneset35
+['R1CodeBlock3336', 'R1CodeBlock3369']
+
+cloneset36
+['R1CodeBlock4152', 'R1CodeBlock4177']
+
+cloneset37
+['R1CodeBlock1592', 'R1CodeBlock1591']
+
+cloneset38
+['R1CodeBlock2491', 'R1CodeBlock2492', 'R1CodeBlock2499', 'R1CodeBlock2475']
+
+cloneset39
+['R1CodeBlock1624']
+
+cloneset40
+['R1CodeBlock2542']
+
+cloneset41
+['R1CodeBlock405', 'R1CodeBlock406']
+
+cloneset42
+['R1CodeBlock4253']
+
+cloneset43
+['R1CodeBlock3523', 'R1CodeBlock3362']
+
+cloneset44
+['R1CodeBlock3069']
+
+cloneset45
+['R1CodeBlock1269']
+
+cloneset46
+['R1CodeBlock1107']
+
+cloneset47
+['R1CodeBlock3750']
+
+cloneset48
+['R1CodeBlock4874', 'R1CodeBlock4875', 'R1CodeBlock4902', 'R1CodeBlock4903']
+
+cloneset49
+['R1CodeBlock3108', 'R1CodeBlock2878', 'R1CodeBlock4182']
+
+cloneset50
+['R1CodeBlock3114']
+
+cloneset51
+['R1CodeBlock3115']
+
+cloneset52
+['R1CodeBlock4225']
+
+cloneset53
+['R1CodeBlock4059']
+
+cloneset54
+['R1CodeBlock2918']
+
+cloneset55
+['R1CodeBlock3187', 'R1CodeBlock3139', 'R1CodeBlock3099', 'R1CodeBlock3100', 'R1CodeBlock3101', 'R1CodeBlock3102']
+
+cloneset56
+['R1CodeBlock3495']
+
+cloneset57
+['R1CodeBlock3503']
+
+cloneset58
+['R1CodeBlock3088']
+
+cloneset59
+['R1CodeBlock3105']
+
+cloneset60
+['R1CodeBlock4914']
+
+cloneset61
+['R1CodeBlock3840']
+
+cloneset62
+['R1CodeBlock2577']
+
+cloneset63
+['R1CodeBlock4926', 'R1CodeBlock4269', 'R1CodeBlock18']
+
+cloneset64
+['R1CodeBlock3998', 'R1CodeBlock2469']
+
+cloneset65
+['R1CodeBlock905']
+
+cloneset66
+['R1CodeBlock4002', 'R1CodeBlock4003', 'R1CodeBlock4051', 'R1CodeBlock4052', 'R1CodeBlock4816', 'R1CodeBlock4817', 'R1CodeBlock4818', 'R1CodeBlock4819', 'R1CodeBlock4872', 'R1CodeBlock4822', 'R1CodeBlock4837']
+
+cloneset67
+['R1CodeBlock711']
+
+cloneset68
+['R1CodeBlock588']
+
+cloneset69
+['R1CodeBlock235', 'R1CodeBlock238']
+
+cloneset70
+['R1CodeBlock2956', 'R1CodeBlock2990']
+
+cloneset71
+['R1CodeBlock543']
+
+cloneset72
+['R1CodeBlock4894']
+
+cloneset73
+['R1CodeBlock4842']
+
+cloneset74
+['R1CodeBlock2938']
+
+cloneset75
+['R1CodeBlock2942']
+
+cloneset76
+['R1CodeBlock2916']
+
+cloneset77
+['R1CodeBlock2097', 'R1CodeBlock2113', 'R1CodeBlock2116', 'R1CodeBlock1925', 'R1CodeBlock1879', 'R1CodeBlock1880', 'R1CodeBlock1885', 'R1CodeBlock1887', 'R1CodeBlock2431', 'R1CodeBlock2127', 'R1CodeBlock2366', 'R1CodeBlock2367', 'R1CodeBlock2368', 'R1CodeBlock2369', 'R1CodeBlock2365', 'R1CodeBlock2372', 'R1CodeBlock2409', 'R1CodeBlock2420', 'R1CodeBlock2373', 'R1CodeBlock2130', 'R1CodeBlock2356', 'R1CodeBlock2146']
+
+cloneset78
+['R1CodeBlock2068', 'R1CodeBlock2086', 'R1CodeBlock1892', 'R1CodeBlock1922', 'R1CodeBlock2375', 'R1CodeBlock2386']
+
+cloneset79
+['R1CodeBlock1882', 'R1CodeBlock1883']
+
+cloneset80
+['R1CodeBlock2951']
+
+cloneset81
+['R1CodeBlock2960']
+
+cloneset82
+['R1CodeBlock1586', 'R1CodeBlock1621']
+
+cloneset83
+['R1CodeBlock1480']
+
+cloneset84
+['R1CodeBlock4901']
+
+cloneset85
+['R1CodeBlock2954']
+
+cloneset86
+['R1CodeBlock3181']
+
+cloneset87
+['R1CodeBlock516']
+
+cloneset88
+['R1CodeBlock2563']
+
+cloneset89
+['R1CodeBlock1891']
+
+cloneset90
+['R1CodeBlock1889']
+
+cloneset91
+['R1CodeBlock1868']
+
+cloneset92
+['R1CodeBlock4877', 'R1CodeBlock4878', 'R1CodeBlock4880', 'R1CodeBlock4881', 'R1CodeBlock4882', 'R1CodeBlock4883', 'R1CodeBlock4898', 'R1CodeBlock4884', 'R1CodeBlock4886', 'R1CodeBlock4888', 'R1CodeBlock4889']
+
+cloneset93
+['R1CodeBlock1465']
+
+cloneset94
+['R1CodeBlock1219']
+
+cloneset95
+['R1CodeBlock4899']
+
+cloneset96
+['R1CodeBlock4897']
+
+cloneset97
+['R1CodeBlock2892', 'R1CodeBlock4783', 'R1CodeBlock4584']
+
+cloneset98
+['R1CodeBlock1191']
+
+cloneset99
+['R1CodeBlock1430']
+
+cloneset100
+['R1CodeBlock4226']
+
+cloneset101
+['R1CodeBlock4773']
+
+cloneset102
+['R1CodeBlock4782']
+
+cloneset103
+['R1CodeBlock2564']
+
+cloneset104
+['R1CodeBlock2565']
+
+cloneset105
+['R1CodeBlock20']
+
+cloneset106
+['R1CodeBlock47']
+
+cloneset107
+['R1CodeBlock3287']
+
+cloneset108
+['R1CodeBlock4181']
+
+cloneset109
+['R1CodeBlock1660']
+
+cloneset110
+['R1CodeBlock2473']
+
+cloneset111
+['R1CodeBlock2472']
+
+cloneset112
+['R1CodeBlock4', 'R1CodeBlock3643']
+
+cloneset113
+['R1CodeBlock3291', 'R1CodeBlock3294', 'R1CodeBlock3295']
+
+cloneset114
+['R1CodeBlock3109']
+
+cloneset115
+['R1CodeBlock4227', 'R1CodeBlock4228', 'R1CodeBlock4302', 'R1CodeBlock4268']
+
+cloneset116
+['R1CodeBlock1093']
+
+cloneset117
+['R1CodeBlock994']
+
+cloneset118
+['R1CodeBlock4843']
+
+cloneset119
+['R1CodeBlock4921', 'R1CodeBlock4923', 'R1CodeBlock4925']
+
+cloneset120
+['R1CodeBlock2895']
+
+cloneset121
+['R1CodeBlock2927']
+
+cloneset122
+['R1CodeBlock1633']
+
+cloneset123
+['R1CodeBlock973']
+
+cloneset124
+['R1CodeBlock3112']
+
+cloneset125
+['R1CodeBlock2239', 'R1CodeBlock2260', 'R1CodeBlock2292', 'R1CodeBlock2293', 'R1CodeBlock2310']
+
+cloneset126
+['R1CodeBlock2359', 'R1CodeBlock2283', 'R1CodeBlock2317', 'R1CodeBlock2350', 'R1CodeBlock2352']
+
+cloneset127
+['R1CodeBlock2236', 'R1CodeBlock2247']
+
+cloneset128
+['R1CodeBlock4802', 'R1CodeBlock4588']
+
+cloneset129
+['R1CodeBlock3344', 'R1CodeBlock3373']
+
+cloneset130
+['R1CodeBlock1623', 'R1CodeBlock1499']
+
+cloneset131
+['R1CodeBlock981']
+
+cloneset132
+['R1CodeBlock2087']
+
+cloneset133
+['R1CodeBlock2847']
+
+cloneset134
+['R1CodeBlock3334', 'R1CodeBlock2728']
+
+cloneset135
+['R1CodeBlock4421', 'R1CodeBlock4438', 'R1CodeBlock4451']
+
+cloneset136
+['R1CodeBlock4915', 'R1CodeBlock4332']
+
+cloneset137
+['R1CodeBlock2056', 'R1CodeBlock1923', 'R1CodeBlock1881', 'R1CodeBlock1884', 'R1CodeBlock1888', 'R1CodeBlock2139', 'R1CodeBlock2374', 'R1CodeBlock2423', 'R1CodeBlock2361', 'R1CodeBlock2193']
+
+cloneset138
+['R1CodeBlock4916']
+
+cloneset139
+['R1CodeBlock288']
+
+cloneset140
+['R1CodeBlock2926']
+
+cloneset141
+['R1CodeBlock2610']
+
+cloneset142
+['R1CodeBlock3255']
+
+cloneset143
+['R1CodeBlock4378', 'R1CodeBlock1601', 'R1CodeBlock940']
+
+cloneset144
+['R1CodeBlock2291', 'R1CodeBlock4930']
+
+cloneset145
+['R1CodeBlock3041']
+
+cloneset146
+['R1CodeBlock1634']
+
+cloneset147
+['R1CodeBlock3384', 'R1CodeBlock3490']
+
+cloneset148
+['R1CodeBlock974']
+
+cloneset149
+['R1CodeBlock1822']
+
+cloneset150
+['R1CodeBlock532', 'R1CodeBlock533']
+
+cloneset151
+['R1CodeBlock2600', 'R1CodeBlock2727']
+
+cloneset152
+['R1CodeBlock977']
+
+cloneset153
+['R1CodeBlock2983']
+
+cloneset154
+['R1CodeBlock2955']
+
+cloneset155
+['R1CodeBlock2978']
+
+cloneset156
+['R1CodeBlock4333', 'R1CodeBlock4380', 'R1CodeBlock1593', 'R1CodeBlock1615']
+
+cloneset157
+['R1CodeBlock323']
+
+cloneset158
+['R1CodeBlock2720']
+
+cloneset159
+['R1CodeBlock2601']
+
+cloneset160
+['R1CodeBlock337']
+
+cloneset161
+['R1CodeBlock618']
+
+cloneset162
+['R1CodeBlock3759']
+
+cloneset163
+['R1CodeBlock4308', 'R1CodeBlock4301']
+
+cloneset164
+['R1CodeBlock3792', 'R1CodeBlock899']
+
+cloneset165
+['R1CodeBlock1328']
+
+cloneset166
+['R1CodeBlock1123']
+
+cloneset167
+['R1CodeBlock979']
+
+cloneset168
+['R1CodeBlock993']
+
+cloneset169
+['R1CodeBlock975']
+
+cloneset170
+['R1CodeBlock528']
+
+cloneset171
+['R1CodeBlock2548', 'R1CodeBlock2500']
+
+cloneset172
+['R1CodeBlock849']
+
+cloneset173
+['R1CodeBlock2467']
+
+cloneset174
+['R1CodeBlock4566', 'R1CodeBlock2701', 'R1CodeBlock2052']
+
+cloneset175
+['R1CodeBlock22', 'R1CodeBlock70']
+
+cloneset176
+['R1CodeBlock4272']
+
+cloneset177
+['R1CodeBlock4273']
+
+cloneset178
+['R1CodeBlock3745', 'R1CodeBlock4001']
+
+cloneset179
+['R1CodeBlock206']
+
+cloneset180
+['R1CodeBlock3995', 'R1CodeBlock2470']
+
+cloneset181
+['R1CodeBlock4927', 'R1CodeBlock1630']
+
+cloneset182
+['R1CodeBlock1230']
+
+cloneset183
+['R1CodeBlock1280']
+
+cloneset184
+['R1CodeBlock3997']
+
+cloneset185
+['R1CodeBlock3530']
+
+cloneset186
+['R1CodeBlock4815']
+
+cloneset187
+['R1CodeBlock515', 'R1CodeBlock2726']
+
+cloneset188
+['R1CodeBlock1869', 'R1CodeBlock2751']
+
+cloneset189
+['R1CodeBlock2461', 'R1CodeBlock2576']
+
+cloneset190
+['R1CodeBlock4583']
+
+cloneset191
+['R1CodeBlock2871']
+
+cloneset192
+['R1CodeBlock4841']
+
+cloneset193
+['R1CodeBlock4804']
+
+cloneset194
+['R1CodeBlock4840']
+
+cloneset195
+['R1CodeBlock4803']
+
+cloneset196
+['R1CodeBlock167']
+
+cloneset197
+['R1CodeBlock4814']
+
+cloneset198
+['R1CodeBlock4895']
+
+cloneset199
+['R1CodeBlock1281', 'R1CodeBlock1255', 'R1CodeBlock1113']
+
+cloneset200
+['R1CodeBlock2729']
+
+cloneset201
+['R1CodeBlock2730']
+
+cloneset202
+['R1CodeBlock4808']
+
+cloneset203
+['R1CodeBlock4331']
+
+cloneset204
+['R1CodeBlock4893']
+
+cloneset205
+['R1CodeBlock4811']
+
+cloneset206
+['R1CodeBlock1016']
+
+cloneset207
+['R1CodeBlock2900', 'R1CodeBlock2902']
+
+cloneset208
+['R1CodeBlock234']
+
+cloneset209
+['R1CodeBlock109']
+
+cloneset210
+['R1CodeBlock1497', 'R1CodeBlock1498']
+
+cloneset211
+['R1CodeBlock3305']
+
+cloneset212
+['R1CodeBlock1559']
+
+cloneset213
+['R1CodeBlock1616']
+
+cloneset214
+['R1CodeBlock4390', 'R1CodeBlock4309']
+
+cloneset215
+['R1CodeBlock1540']
+
+cloneset216
+['R1CodeBlock1541']
+
+cloneset217
+['R1CodeBlock3749', 'R1CodeBlock2471']
+
+cloneset218
+['R1CodeBlock3837', 'R1CodeBlock3906']
+
+cloneset219
+['R1CodeBlock1867']
+
+cloneset220
+['R1CodeBlock1679']
+
+cloneset221
+['R1CodeBlock3113']
+
+cloneset222
+['R1CodeBlock1823']
+
+cloneset223
+['R1CodeBlock2530']
+
+cloneset224
+['R1CodeBlock2531']
+
+cloneset225
+['R1CodeBlock1866']
+
+cloneset226
+['R1CodeBlock4391', 'R1CodeBlock4393', 'R1CodeBlock4415']
+
+cloneset227
+['R1CodeBlock2533']
+
+cloneset228
+['R1CodeBlock2534']
+
+cloneset229
+['R1CodeBlock1632']
+
+cloneset230
+['R1CodeBlock2872', 'R1CodeBlock2870']
+
+cloneset231
+['R1CodeBlock3306', 'R1CodeBlock3293', 'R1CodeBlock3084']
+
+cloneset232
+['R1CodeBlock3304']
+
+cloneset233
+['R1CodeBlock2946']
+
+cloneset234
+['R1CodeBlock2934']
+
+cloneset235
+['R1CodeBlock2549']
+
+cloneset236
+['R1CodeBlock4768', 'R1CodeBlock4770']
+
+cloneset237
+['R1CodeBlock4290', 'R1CodeBlock4300']
+
+cloneset238
+['R1CodeBlock2994', 'R1CodeBlock3006']
+
+cloneset239
+['R1CodeBlock1875', 'R1CodeBlock2817']
+
+cloneset240
+['R1CodeBlock2512']
+
+cloneset241
+['R1CodeBlock2538']
+
+cloneset242
+['R1CodeBlock2497']
+
+cloneset243
+['R1CodeBlock3907']
+
+cloneset244
+['R1CodeBlock3990']
+
+cloneset245
+['R1CodeBlock2092', 'R1CodeBlock1924', 'R1CodeBlock1886', 'R1CodeBlock2371']
+
+cloneset246
+['R1CodeBlock3743', 'R1CodeBlock3309']
+
+cloneset247
+['R1CodeBlock21']
+
+cloneset248
+['R1CodeBlock2054']
+
+cloneset249
+['R1CodeBlock218']
+
+cloneset250
+['R1CodeBlock208']
+
+cloneset251
+['R1CodeBlock155']
+
+cloneset252
+['R1CodeBlock2567']
+
+cloneset253
+['R1CodeBlock4885']
+
+cloneset254
+['R1CodeBlock2021']
+
+cloneset255
+['R1CodeBlock1870', 'R1CodeBlock2794']
+
+cloneset256
+['R1CodeBlock4751', 'R1CodeBlock2710']
+
+cloneset257
+['R1CodeBlock4807', 'R1CodeBlock4801', 'R1CodeBlock4494']
+
+cloneset258
+['R1CodeBlock2722']
+
+cloneset259
+['R1CodeBlock2700']
+
+cloneset260
+['R1CodeBlock1094']
+
+cloneset261
+['R1CodeBlock976']
+
+cloneset262
+['R1CodeBlock3547']
+
+cloneset263
+['R1CodeBlock4838']
+
+cloneset264
+['R1CodeBlock4919']
+
+cloneset265
+['R1CodeBlock111']
+
+cloneset266
+['R1CodeBlock3721', 'R1CodeBlock154', 'R1CodeBlock178']
+
+cloneset267
+['R1CodeBlock4928']
+
+cloneset268
+['R1CodeBlock2904', 'R1CodeBlock4183']
+
+cloneset269
+['R1CodeBlock4917']
+
+cloneset270
+['R1CodeBlock4627']
+
+cloneset271
+['R1CodeBlock4643']
+
+cloneset272
+['R1CodeBlock1070']
+
+cloneset273
+['R1CodeBlock4626']
+
+cloneset274
+['R1CodeBlock3379']
+
+cloneset275
+['R1CodeBlock4739', 'R1CodeBlock2711', 'R1CodeBlock2460']
+
+cloneset276
+['R1CodeBlock4752']
+
+cloneset277
+['R1CodeBlock283']
+
+cloneset278
+['R1CodeBlock2574']
+
+cloneset279
+['R1CodeBlock2869']
+
+cloneset280
+['R1CodeBlock4060']
+
+cloneset281
+['R1CodeBlock267']
+
+cloneset282
+['R1CodeBlock4000']
+
+cloneset283
+['R1CodeBlock4180', 'R1CodeBlock4064']
+
+cloneset284
+['R1CodeBlock3618']
+
+cloneset285
+['R1CodeBlock4812']
+
+cloneset286
+['R1CodeBlock4806', 'R1CodeBlock2055']
+
+cloneset287
+['R1CodeBlock4920']
+
+cloneset288
+['R1CodeBlock1680']
+
+cloneset289
+['R1CodeBlock1017']
+
+cloneset290
+['R1CodeBlock4771', 'R1CodeBlock4772']
+
+cloneset291
+['R1CodeBlock1585', 'R1CodeBlock906']
+
+cloneset292
+['R1CodeBlock4252', 'R1CodeBlock4271']
+
+cloneset293
+['R1CodeBlock2731']
+
+cloneset294
+['R1CodeBlock2750']
+
+cloneset295
+['R1CodeBlock2474', 'R1CodeBlock2476', 'R1CodeBlock2490']
+
+cloneset296
+['R1CodeBlock2509']
+
+cloneset297
+['R1CodeBlock287', 'R1CodeBlock214']
+
+cloneset298
+['R1CodeBlock3836']
+
+cloneset299
+['R1CodeBlock3839']
+
+cloneset300
+['R1CodeBlock4178']
+
+cloneset301
+['R1CodeBlock2910']
+
+cloneset302
+['R1CodeBlock3252']
+
+cloneset303
+['R1CodeBlock3505']
+
+cloneset304
+['R1CodeBlock3383']
+
+cloneset305
+['R1CodeBlock850', 'R1CodeBlock898']
+
+cloneset306
+['R1CodeBlock4563', 'R1CodeBlock2719', 'R1CodeBlock2051']
+
+cloneset307
+['R1CodeBlock4553', 'R1CodeBlock2718', 'R1CodeBlock2050']
+
+cloneset308
+['R1CodeBlock4581', 'R1CodeBlock4929', 'R1CodeBlock2053']
+
+cloneset309
+['R1CodeBlock1635']
+
+cloneset310
+['R1CodeBlock717']
+
+cloneset311
+['R1CodeBlock1511']
+
+cloneset312
+['R1CodeBlock2541']
+
+cloneset313
+['R1CodeBlock2526']
+
+cloneset314
+['R1CodeBlock1661']
+
+cloneset315
+['R1CodeBlock623']
+
+cloneset316
+['R1CodeBlock636']
+
+cloneset317
+['R1CodeBlock4392']
+
+cloneset318
+['R1CodeBlock4463']
+
+cloneset319
+['R1CodeBlock3014']
+
+cloneset320
+['R1CodeBlock3018']
+
+cloneset321
+['R1CodeBlock248']
+
+cloneset322
+['R1CodeBlock265']
+
+cloneset323
+['R1CodeBlock4552', 'R1CodeBlock2716', 'R1CodeBlock2022']
+
+cloneset324
+['R1CodeBlock3332', 'R1CodeBlock3316']
+
+cloneset325
+['R1CodeBlock28']
+
+cloneset326
+['R1CodeBlock4518', 'R1CodeBlock2712', 'R1CodeBlock2424']
+
+cloneset327
+['R1CodeBlock3841']
+
+cloneset328
+['R1CodeBlock3866']
+
+cloneset329
+['R1CodeBlock525']
+
+cloneset330
+['R1CodeBlock526']
+
+cloneset331
+['R1CodeBlock4740']
+
+cloneset332
+['R1CodeBlock982']
+
+cloneset333
+['R1CodeBlock3630']
+
+cloneset334
+['R1CodeBlock1631']
+
+cloneset335
+['R1CodeBlock1110']
+
+cloneset336
+['R1CodeBlock259']
+
+cloneset337
+['R1CodeBlock1754']
+
+cloneset338
+['R1CodeBlock3104']
+
+cloneset339
+['R1CodeBlock3994']
+
+cloneset340
+['R1CodeBlock266']
+
+cloneset341
+['R1CodeBlock3250']
+
+cloneset342
+['R1CodeBlock1673']
+
+cloneset343
+['R1CodeBlock4452']
+
+cloneset344
+['R1CodeBlock2725']
+
+cloneset345
+['R1CodeBlock3526']
+
+cloneset346
+['R1CodeBlock216']
+
+cloneset347
+['R1CodeBlock166']
+
+cloneset348
+['R1CodeBlock4813']
+
+cloneset349
+['R1CodeBlock3103']
+
+cloneset350
+['R1CodeBlock282']
+
+cloneset351
+['R1CodeBlock324']
+
+cloneset352
+['R1CodeBlock4849']
+
+cloneset353
+['R1CodeBlock3381']
+
+cloneset354
+['R1CodeBlock3290']
+
+cloneset355
+['R1CodeBlock1220']
+
+cloneset356
+['R1CodeBlock3248']
+
+cloneset357
+['R1CodeBlock2566']
+
+cloneset358
+['R1CodeBlock4693']
+
+cloneset359
+['R1CodeBlock3642']
+
+cloneset360
+['R1CodeBlock2370']
+
+cloneset361
+['R1CodeBlock4464', 'R1CodeBlock4495']
+
+cloneset362
+['R1CodeBlock2949', 'R1CodeBlock2944']
+
+cloneset363
+['R1CodeBlock3631']
+
+cloneset364
+['R1CodeBlock3674', 'R1CodeBlock3666']
+
+cloneset365
+['R1CodeBlock3662']
+
+cloneset366
+['R1CodeBlock4845']
+
+cloneset367
+['R1CodeBlock3709']
+
+cloneset368
+['R1CodeBlock3378']
+
+cloning_percentage = 10.150375939849624
+FILE LEVEL INFORMATIONtotal_files = 575
+final_revision = 1
+files_containing_clones = 182
+added_files = 182
+deleted_files = 0
+CLONESETS INFORMATIONtotal_clone_sets = 368
+stable_clonesets = 0
+new_clonesets = 368
+deleted_clonesets = 0
+changed_clonesets = 0
+CODECLONES INFORMATIONtotal_codeclones = 572
+stable_codeclones = 0
+new_codeclones = 572
+deleted_codeclones = 0
+changed_codeclones = 0
