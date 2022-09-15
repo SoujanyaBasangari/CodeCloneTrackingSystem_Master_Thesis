@@ -75,8 +75,8 @@ def detectClone(codeBlocks):
                 codeCandidateBlock = codeBlocks[codeCandidateId]
                 candidate_variable_scope = codeCandidateBlock["Variables_Scope"]
                 candidate_method_calls_scope = codeCandidateBlock["Method_Calls_Scope"]
-                # print("Variables Scope", variable_scope)
-                # print("Methods Calls Scope", method_calls_scope)
+                print("Variables Scope", variable_scope)
+                print("Methods Calls Scope", method_calls_scope)
                 # print("Candidate vC", candidate_variable_scope)
                 # print("Can MC", candidate_method_calls_scope)
                 variableSimilarityByDataFlow, methodCallSimilarityByDataFlow = DataFlowApproach.getSimilarity(
@@ -88,7 +88,7 @@ def detectClone(codeBlocks):
                     codeCloneIds.append(
                         {"Similarity": [simTokens, variableSimilarityByDataFlow, methodCallSimilarityByDataFlow],
                          "codeCandidateId": codeCandidateId})
-
+                    print(codeCloneIds)
         codeBlock.update({"CodeClones": codeCloneIds})
 
     return codeBlocks, codeclonelines
@@ -147,6 +147,7 @@ def similarity(Tokens1, Tokens2):
     tokens1 = 0
     tokens2 = 0
     tokensUnion = 0
+    result = 0
     Tokens1Keys = Tokens1.keys()
     Tokens2Keys = Tokens2.keys()
     for key in Tokens1Keys:
@@ -156,4 +157,6 @@ def similarity(Tokens1, Tokens2):
         tokens1 += Tokens1[key]
     for key in Tokens2Keys:
         tokens2 += Tokens2[key]
-    return (tokensIntersect) / (tokens1 + tokens2 - tokensIntersect)
+    if (tokens1 + tokens2 - tokensIntersect) > 0:
+        result = (tokensIntersect) / (tokens1 + tokens2 - tokensIntersect)
+    return result

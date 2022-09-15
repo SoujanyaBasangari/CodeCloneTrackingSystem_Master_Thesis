@@ -7,13 +7,19 @@ import cloneTracking
 # save char2vec with diff name and load clustering model pickle file
 # allFilesData is list which have all files with specific extension
 print("Getting all file info from folder")
-dirPath = "C:/Users/soujanya basangari/Documents/Theses final code/Test_project_Codeclonetracer-main/Test_project_Codeclonetracer-main/onlinebookstore-J2EE"
+#dirPath = "C:/Users/soujanya basangari/Documents/Theses final code/Test_project_Codeclonetracer-main/Test_project_Codeclonetracer-main/onlinebookstore-J2EE"
+
+#dirPath = "C:/Users/soujanya basangari/Documents/Theses final code/Java_Repository_Test_Repo-main"
+dirPath = "C:/Users/soujanya basangari/Desktop/Clonedetection/RxJava-3.x/RxJava-3.x"
+
+#dirPath = "C:/Users/soujanya basangari/Documents/Theses final code/jEdit-master/jEdit-master"
+
 allFilesData= data_extraction.getAllFilesUsingFolderPath(dirPath)
 
 print("Extracting methods from files",len(allFilesData),"total_files")
 
 current_dataset,linesofcode,codeclonelines= data_extraction.extractMethodsAllFiles(allFilesData)
-print("load transformed dataset to ML model")
+print("load transformed dataset to ML model",linesofcode,codeclonelines)
 
 total_files=len(allFilesData)
 

@@ -30,9 +30,12 @@ def extractMethodsAllFiles(listOfFiles):
             linesofcode = linesofcode + len(originalCode)
             codeBlocks = methodLevelBlocks(originalCode)
 
-        else:
+        elif Config.granularity == 'file_level':
             linesofcode = linesofcode + len(originalCode)
             codeBlocks = fileLevelBlocks(originalCode)
+        else:
+            linesofcode = linesofcode + len(originalCode)
+            codeBlocks =  normalized_codeblocks(originalCode)
         if len(codeBlocks) == 0:
             continue
         for codeBlock in codeBlocks:
@@ -46,11 +49,15 @@ def extractMethodsAllFiles(listOfFiles):
             allFilesMethodsBlocks["CodeBlock" + str(blocksSoFar)] = codeBlock
 
     granularity = Config.granularity
-    codeBlocks, codeclonelines = CloneDetector.detectClone(allFilesMethodsBlocks)
-    print("detecting code clones")
-    previous_file_name = 'C:/Users/soujanya basangari/Documents/Theses final code/Test_project_Codeclonetracer-main/Test_project_Codeclonetracer-main/'+ granularity + 'tracking.csv'
-    current_dataset = dataset_creation(codeBlocks)
-    print("Transforming detected code blocks into dataset")
+    print("total code blocks",len(allFilesMethodsBlocks),linesofcode)
+    cloneBlocks, codeclonelines = CloneDetector.detectClone(allFilesMethodsBlocks)
+    print("detecting code clones",len(cloneBlocks),codeclonelines)
+    #previous_file_name = '"C:/Users/soujanya basangari/Documents/Theses final code/Java_Repository_Test_Repo-main"/'+ granularity + 'tracking.csv'
+    #previous_file_name = 'C:/Users/soujanya basangari/Desktop/Clonedetection/RxJava-3.x/RxJava-3.x/'+ granularity + 'tracking.csv'
+    previous_file_name = Config.dirPath+'/'+ granularity + 'tracking.csv'
+   
+    current_dataset = dataset_creation(cloneBlocks)
+    print("Transforming detected code blocks into dataset",current_dataset.shape)
     previous_dataset = pd.DataFrame()
     previous_clones = pd.DataFrame(
         columns=['codeBlockId', 'codeBlock_start', 'codeBlock_end', 'codeBlock_fileinfo', 'codeblock_Code',
@@ -60,9 +67,9 @@ def extractMethodsAllFiles(listOfFiles):
     if os.path.isfile(previous_file_name):  # previous_file_name.exists():
         previous_dataset = pd.read_csv(previous_file_name, index_col=0)
         revision = previous_dataset.Revision.unique()
-        print("Revision", revision[0])
-        # previous_clones = previous_dataset[~previous_dataset.codeBlock_fileinfo.isin(current_dataset.codeBlock_fileinfo)]
-        # frames = [current_dataset,previous_clones]
+        print("Revision", revision)
+        previous_clones = previous_dataset[~previous_dataset.codeBlock_fileinfo.isin(current_dataset.codeBlock_fileinfo)]
+        frames = [current_dataset,previous_clones]
         current_dataset['Revision'] = revision[0] + 1
         current_dataset = pd.concat([current_dataset, previous_dataset])
         current_dataset = current_dataset.loc[current_dataset.astype(str).drop_duplicates().index]
@@ -78,10 +85,13 @@ def extractMethodsAllFiles(listOfFiles):
     current_dataset = current_dataset.loc[current_dataset.astype(str).drop_duplicates().index]
     current_dataset['datetime'] = datetime.now()
     current_dataset = current_dataset.reset_index(drop=True)
-    current_dataset = current_dataset.drop_duplicates(subset=['codeBlockId', 'Revision', 'codeCloneBlockId'],
-                                                      keep='last')
+    current_dataset = current_dataset.drop_duplicates()
     current_dataset = current_dataset.reset_index(drop=True)
-    current_dataset.to_csv('C:/Users/soujanya basangari/Documents/Theses final code/Test_project_Codeclonetracer-main/Test_project_Codeclonetracer-main/'+ granularity + 'tracking.csv')
+    #current_dataset.to_csv('C:/Users/soujanya basangari/Documents/Theses final code/Java_Repository_Test_Repo-main/'+ granularity + 'tracking.csv')
+   # current_dataset.to_csv('//Users/soujanya basangari/Desktop/Clonedetection/RxJava-3.x/RxJava-3.x/'+ granularity + 'tracking.csv')
+    current_dataset.to_csv(Config.dirPath+'/'+ granularity + 'tracking.csv')
+    
+    #current_dataset.to_csv('C:/Users/soujanya basangari/Documents/Theses final code/Java_Repository_Test_Repo-main/'+ granularity + 'tracking.csv')
     # current_dataset.to_sql('rxjava', con= engine, if_exists='append', index=False)
     # pd.read_sql('select count(*) from rxjava', conn=engine)
     # current_dataset.to_sql('training_onlinebookstore', con=engine, if_exists='append', index=False)"""
@@ -120,7 +130,29 @@ def dataset_creation(codeBlocks):
         # df=df.append(row_df)
 
     return df
-
+def normalized_codeblocks(originalCode):
+    """
+    input : originalCode
+    output : blocks using file level
+    """
+    allCodeBlocks = []
+    commentsRemovedCode = removeCommentsFromCode(originalCode)
+    #print(len(commentsRemovedCode))
+    blocks = [l.split(',') for l in ','.join(commentsRemovedCode).split('}')]
+    
+    startLine = 1
+    endLine = 1
+    for index,i in enumerate(blocks):  
+      flat_list = [subblocks.replace(' ', '') for subblocks in blocks[index]]
+      
+      flat_list = list(filter(None, flat_list))
+      endLine = endLine +len(flat_list)
+      if len(flat_list) > 0:
+         # print(startLine,endLine,index,flat_list)
+          allCodeBlocks.append({"Start": startLine, "End": endLine, "Code": flat_list})
+      startLine = startLine+ len(flat_list)
+    
+    return allCodeBlocks
 
 def fileLevelBlocks(originalCode):
     """
@@ -132,6 +164,7 @@ def fileLevelBlocks(originalCode):
     commentsRemovedCode = removeCommentsFromCode(originalCode)
     startLine = 1
     endLine = len(commentsRemovedCode)
+    print(type(commentsRemovedCode),commentsRemovedCode)
     allCodeBlocks.append(
         {"Start": startLine, "End": endLine, "Code": commentsRemovedCode})
     return allCodeBlocks
@@ -376,7 +409,7 @@ def method_extractor(file):
 def getAllFilesUsingFolderPath(folderPath):
     allFilesInFolder = []
     fileCount = 0
-   # maxCount = 100
+    #maxCount = 100
     for subdir, dirs, files in os.walk(folderPath):
         for fileName in files:
             fileCount += 1
@@ -384,6 +417,6 @@ def getAllFilesUsingFolderPath(folderPath):
                 continue
             fileFullPath = os.path.join(subdir, fileName)
             allFilesInFolder.append(fileFullPath)
-            #if fileCount > maxCount:
-             #   break
+           # if fileCount > maxCount:
+            #    break
     return allFilesInFolder
