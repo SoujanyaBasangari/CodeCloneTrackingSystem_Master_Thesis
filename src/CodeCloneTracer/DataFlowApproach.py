@@ -30,7 +30,6 @@ def stringMatching(str1, str2):
     #     str2 += ele
 
     similarity = fuzz.ratio(str1, str2)
-    # print(str1, str2, similarity)
     return similarity
 
 
@@ -63,14 +62,11 @@ def checkForParenthesis(method_lines, lst_line, i):
         k = i + 1
         for next_line in method_lines[i + 1:]:
             next_line = next_line.strip()
-            # print(k, next_line)
             if (len(next_line) > 0):
                 if '{' == next_line[0]:
                     return method_lines
                 else:
-                    # print(next_line, "++++++" + next_line[-1] + "+++++")
                     if ';' == next_line[-1]:
-                        # print("========", next_line, method_lines[k])
                         method_lines[k] = method_lines[k] + " } "
                         method_lines[i] = method_lines[i] + " { "
                         return method_lines

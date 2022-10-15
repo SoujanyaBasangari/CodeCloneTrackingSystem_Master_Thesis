@@ -1,4 +1,4 @@
-from .Char2VecModel import *
+from .embeddingModel import *
 from .CloneDetector import *
 from .cloneTracking import *
 from .data_extraction import *

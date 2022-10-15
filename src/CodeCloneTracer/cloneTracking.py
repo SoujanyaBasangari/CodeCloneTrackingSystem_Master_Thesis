@@ -1,8 +1,5 @@
-import sys
-#sys.path.append('//Users/soujanya basangari/Documents/Theses final code/Java_Repository_Test_Repo-main')
-sys.path.append('//Users/soujanya basangari/Desktop/Clonedetection/RxJava-3.x/RxJava-3.x')
-#sys.path.append('//Users/soujanya basangari/Documents/Theses final code/jEdit-master/jEdit-master')
-import chars2vecmodel
+
+import embeddingModel
 import sklearn.decomposition
 import matplotlib.pyplot as plt
 import numpy
@@ -27,7 +24,7 @@ def clonetracingModel(df):
     df = df.drop_duplicates(subset=['codeBlockId', 'Revision', 'codeCloneBlockId'], keep='last')
     df["unique"] = "R" + df["Revision"].astype(str) + df["codeBlockId"]
     df = df.reset_index(drop=True)
-    c2v_model = chars2vecmodel.load_model('ccmodel')
+    n2v_model = embeddingModel.load_model('ccmodel')
 
     preprocessed_dataset = df[
         ['codeBlockId', 'codeblock_Code', 'Revision', 'codeBlock_start', 'codeBlock_end', 'codeBlock_fileinfo',
@@ -37,10 +34,10 @@ def clonetracingModel(df):
 
     codeblock_Code = preprocessed_dataset['codeblock_Code'].tolist()
     # Create word embeddings
-    codeblock_Code = c2v_model.vectorize_words(codeblock_Code)
+    codeblock_Code = n2v_model.vectorize_words(codeblock_Code)
     preprocessed_dataset['emdedding_codeblock_Code'] = codeblock_Code.tolist()
     data = preprocessed_dataset[['unique', 'emdedding_codeblock_Code']]
-    dist = DistanceMetric.get_metric('euclidean')  # manhattan euclidean
+    dist = DistanceMetric.get_metric('manhattan')  # manhattan euclidean
 
     manhattan_distance_df = pd.DataFrame(dist.pairwise(numpy.asarray([numpy.array(xi) for xi in data['emdedding_codeblock_Code']])),columns=data.unique.unique(), index=data.unique.unique())
 
@@ -50,27 +47,21 @@ def clonetracingModel(df):
 
     data['clonesets'] = clusters
 
-    # Print the indices of the data points in each cluster.
     num_clusters = clusters.max()
     print("Total %d clonesets" % num_clusters)
     indices = cluster_indices(clusters)
     for k, ind in enumerate(indices):
         print("cloneset", k + 1, "is", ind)
-   # maxvalue=df['Revision'].max()
-
+ 
     final_dataframe = pd.merge(data, df, on='unique', how='inner')
 
     return final_dataframe,indices
-
-    # scale(manhattan_distance_df)
-    # plt.figure(figsize=(50, 12))
-    # dend=hcluster.dendrogram(hcluster.linkage(manhattan_distance_df,method='ward'))
 
 
 def analysis_creating_report(final_dataframe, total_files, cloning_percentage,indices):
     output = final_dataframe[
         ['unique', 'Revision', 'clonesets', 'codeBlockId', 'codeBlock_start', 'codeBlock_end', 'nloc',
-         'codeBlock_fileinfo', 'codeCloneBlockId']]
+         'codeBlock_fileinfo', 'codeCloneBlockId','change_type']]
     output = output.drop_duplicates(subset=['unique'], keep='last')
     output = output.sort_values('Revision')
     output['codeBlockId'] = output['codeBlockId'].str.replace('CodeBlock', '')
@@ -108,8 +99,11 @@ def analysis_creating_report(final_dataframe, total_files, cloning_percentage,in
     output['status'] = ''
     output['status'] = output['status'].where(output['ix'].isin(ix_first), 'stable')
     output['status'] = output['status'].replace('', 'new')
-    output.loc[output.codeBlock_end_diff > 0, 'status'] = 'Modified/Added'
-    output.loc[output.codeBlock_end_diff < 0, 'status'] = 'Modified/removed'
+
+    output.loc[(output.status == '', 'status') |(output.change_type == 'ModificationType.ADD'), 'status']= 'new' 
+
+    output.loc[(output.codeBlock_end_diff > 0)|(output.change_type == 'ModificationType.MODIFY'), 'status'] = 'Modified/Added'
+    output.loc[(output.codeBlock_end_diff < 0)|(output.change_type == 'ModificationType.MODIFY'), 'status'] = 'Modified/removed'
     output['codeBlock_start_diffs'] = output['codeBlock_start_diffs'].replace(np.NaN, 'new')
     output['codeBlock_end_diff'] = output['codeBlock_end_diff'].replace(np.NaN, 'new')
     output['nloc_diff'] = output['nloc_diff'].replace(np.NaN, 'new')
@@ -134,8 +128,7 @@ def analysis_creating_report(final_dataframe, total_files, cloning_percentage,in
     output = output.sort_values('Revision')
     maxvalue=output['Revision'].max()
     granularity = Config.granularity
-    #path = 'C:/Users/soujanya basangari/Documents/Theses final code/Java_Repository_Test_Repo-main/tracking_result'+str(granularity)+str(maxvalue)+'.txt'
-    path = Config.dirPath+'/tracking_result'+str(granularity)+str(maxvalue)+'.txt'
+    path = str(Config.dirPath)+str(granularity)+'.txt'
     
     with open(path, 'w') as f:
         for k, ind in enumerate(indices):
@@ -207,4 +200,3 @@ def analysis_creating_report(final_dataframe, total_files, cloning_percentage,in
         f.close()
 
     return output
-

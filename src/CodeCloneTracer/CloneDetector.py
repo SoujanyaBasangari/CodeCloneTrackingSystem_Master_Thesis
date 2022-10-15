@@ -34,21 +34,15 @@ def detectClone(codeBlocks):
         code = codeBlock['Code']
         dict_tokens, dict_variables, dict_methods = getAllTokens(code)
 
-        # print("dict_v ", dict_variables)
-        # print("dict_mc", dict_methods)
-        # print("dict_t", dict_tokens)
         variables_lst = getMostFrequent(
             dict_variables, Config.variableAndMethodsThreshold)
         methods_lst = getMostFrequent(
             dict_methods, Config.variableAndMethodsThreshold)
 
-        # print("identifiers ", variables_lst)
-        # print("methods ", methods_lst)
+   
         variable_scope, method_calls_scope = DataFlowApproach.dataFlowGenerator(
             code, variables_lst, methods_lst, [codeBlock['FileInfo'], codeBlock['Start'], codeBlock['End']])
 
-        # print("VC", variable_scope)
-        # print("MCS ", method_calls_scope)
         codeBlock.update({"Tokens": dict_tokens})
         codeBlock.update({"Variables_Scope": variable_scope})
         codeBlock.update({"Method_Calls_Scope": method_calls_scope})
@@ -75,10 +69,7 @@ def detectClone(codeBlocks):
                 codeCandidateBlock = codeBlocks[codeCandidateId]
                 candidate_variable_scope = codeCandidateBlock["Variables_Scope"]
                 candidate_method_calls_scope = codeCandidateBlock["Method_Calls_Scope"]
-                print("Variables Scope", variable_scope)
-                print("Methods Calls Scope", method_calls_scope)
-                # print("Candidate vC", candidate_variable_scope)
-                # print("Can MC", candidate_method_calls_scope)
+             
                 variableSimilarityByDataFlow, methodCallSimilarityByDataFlow = DataFlowApproach.getSimilarity(
                     variable_scope, method_calls_scope, candidate_variable_scope, candidate_method_calls_scope,
                     [codeBlock['FileInfo'], codeBlock['Start'], codeBlock['End'],
@@ -88,7 +79,7 @@ def detectClone(codeBlocks):
                     codeCloneIds.append(
                         {"Similarity": [simTokens, variableSimilarityByDataFlow, methodCallSimilarityByDataFlow],
                          "codeCandidateId": codeCandidateId})
-                    print(codeCloneIds)
+
         codeBlock.update({"CodeClones": codeCloneIds})
 
     return codeBlocks, codeclonelines
@@ -104,8 +95,7 @@ def getAllTokens(code):
         list_line = re.sub('(?<=\W|\w)(' + regexPattern + ')',
                            r' \1 ', line).split()
         list_line = [unit.strip() for unit in list_line if unit.strip() != ""]
-        # print(list_line)
-
+   
         for idx in range(len(list_line)):
             unit = list_line[idx].strip()
             unit = re.sub(r"^[+-]?((\d*(\.\d*)?)|(\.\d*))$",
@@ -126,8 +116,7 @@ def getAllTokens(code):
 
                 else:
                     list_variableName = unit.split('.')
-                    # print(list_variableName)
-
+                   
                     list_variables.append(list_variableName[-1])
                     list_tokens.append("TOKEN_VARIABLE")
 
@@ -147,7 +136,6 @@ def similarity(Tokens1, Tokens2):
     tokens1 = 0
     tokens2 = 0
     tokensUnion = 0
-    result = 0
     Tokens1Keys = Tokens1.keys()
     Tokens2Keys = Tokens2.keys()
     for key in Tokens1Keys:
@@ -157,6 +145,7 @@ def similarity(Tokens1, Tokens2):
         tokens1 += Tokens1[key]
     for key in Tokens2Keys:
         tokens2 += Tokens2[key]
-    if (tokens1 + tokens2 - tokensIntersect) > 0:
-        result = (tokensIntersect) / (tokens1 + tokens2 - tokensIntersect)
-    return result
+    if (tokens1 + tokens2 - tokensIntersect) > 0 :
+        return (tokensIntersect) / (tokens1 + tokens2 - tokensIntersect)
+    else:
+        return 0
