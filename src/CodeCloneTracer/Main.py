@@ -9,15 +9,19 @@ git_first = Config.git_first
 if Config.extract_from_git == False:
     allFilesData= data_extraction.getAllFilesUsingFolderPath(Config.dirPath)
     print("Extracting methods from files",len(allFilesData),"total_files")
-
+    total_files=len(allFilesData)
     current_dataset,linesofcode,codeclonelines= data_extraction.extractMethodsAllFiles(allFilesData)
-    print("load transformed dataset to ML model")
+    print("load transformed dataset to ML model",linesofcode,codeclonelines)
+elif Config.git_first == True and Config.extract_from_git == True:
+    current_dataset,linesofcode,codeclonelines,total_files= data_extraction.extractMethods_first(Config.url)
+    print("Extracting methods from files",total_files,"total_files")
+    print("load transformed dataset to ML model",linesofcode,codeclonelines)
 else:
     current_dataset,linesofcode,codeclonelines,total_files= data_extraction.extractMethods(Config.url)
     print("Extracting methods from files",total_files,"total_files")
-    print("load transformed dataset to ML model")
+    print("load transformed dataset to ML model",linesofcode,codeclonelines)
 
-total_files=len(allFilesData)
+
 
 ml_dataset,indices= cloneTracking.clonetracingModel(current_dataset)
 

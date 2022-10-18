@@ -1,10 +1,10 @@
 
 dirPath = "D:/projects/clone/test_project/"
 
-url = "https://github.com/shashirajraja/onlinebookstore"
+url = "https://github.com/SoujanyaBasangari/test_project.git"
 
-extract_from_git = False
-git_first=False
+extract_from_git = True
+git_first=True
 # Minimum length of block to consider
 minimumLengthBlock = 10
 
