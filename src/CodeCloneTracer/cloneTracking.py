@@ -37,7 +37,7 @@ def clonetracingModel(df):
     codeblock_Code = n2v_model.vectorize_words(codeblock_Code)
     preprocessed_dataset['emdedding_codeblock_Code'] = codeblock_Code.tolist()
     data = preprocessed_dataset[['unique', 'emdedding_codeblock_Code']]
-    dist = DistanceMetric.get_metric('manhattan')  # manhattan euclidean
+    dist = DistanceMetric.get_metric('euclidean')  # manhattan euclidean
 
     manhattan_distance_df = pd.DataFrame(dist.pairwise(numpy.asarray([numpy.array(xi) for xi in data['emdedding_codeblock_Code']])),columns=data.unique.unique(), index=data.unique.unique())
 
@@ -52,9 +52,8 @@ def clonetracingModel(df):
     indices = cluster_indices(clusters)
     for k, ind in enumerate(indices):
         print("cloneset", k + 1, "is", ind)
- 
+    
     final_dataframe = pd.merge(data, df, on='unique', how='inner')
-
     return final_dataframe,indices
 
 
@@ -121,14 +120,15 @@ def analysis_creating_report(final_dataframe, total_files, cloning_percentage,in
     
     
     else:
+        
         output = final_dataframe[['unique', 'Revision', 'clonesets', 'codeBlockId', 'codeBlock_start', 'codeBlock_end', 'nloc',
          'codeBlock_fileinfo', 'codeCloneBlockId','change_type','commitinfo']]
         output = output.drop_duplicates(subset=['unique'], keep='last')
         output = output.sort_values('Revision')
         output['codeBlockId'] = output['codeBlockId'].str.replace('CodeBlock', '')
         output["codeBlockId"] = output["codeBlockId"].astype(int)
-        output['Revision'] = output['Revision'].str.replace('R', '')
-        output["Revision"] = output["Revision"].astype(int)
+        #output['Revision'] = output['Revision'].str.replace('R', '')
+        #output["Revision"] = output["Revision"].astype(int)
         idx = output.index
         output.sort_values(['codeBlock_fileinfo', 'commitinfo'], inplace=True)
         output["codeBlock_start"] = pd.to_numeric(output["codeBlock_start"])#.astype(int)
@@ -178,8 +178,7 @@ def analysis_creating_report(final_dataframe, total_files, cloning_percentage,in
         output.reindex(idx)
         output = output.sort_values('commitinfo')
         maxvalue=output['commitinfo'].nunique()#.max()
-    
-    
+      
     
     granularity = Config.granularity
     path = str(Config.dirPath)+str(granularity)+'.txt'
