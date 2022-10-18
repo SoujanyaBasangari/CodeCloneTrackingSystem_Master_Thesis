@@ -8,7 +8,7 @@ import sys
 import traceback
 import CloneDetector
 import javalang
-
+import datetime
 import Config
 import pandas as pd
 from pydriller import Repository
@@ -31,16 +31,11 @@ def extractMethods(url):
     total_lines = metric.count()
     print('Total lines : {}'.format(sum(total_lines.values())))
     codeBlocks={}
-    for commit in Repository(url).traverse_commits():#,only_commits=[latest_commit]
+    for commit in Repository(url,only_commits=[latest_commit]).traverse_commits():#,only_commits=[latest_commit]
         filename_list=[]
-        
-        
-        
         for i in commit.modified_files:
             if i.filename.endswith('java'): 
-                
-                if Config.granularity == "method_level":
-                  
+                if Config.granularity == "method_level":   
                     filename_list.append(i.filename)
                     originalcode = str(i.source_code).replace('\r', '').replace('\t', '').split('\n')
                     linesofcode = linesofcode + len(originalcode)
@@ -67,15 +62,14 @@ def extractMethods(url):
                     codeBlock.update({"source_code": i.source_code})
                     codeBlock.update({"committer_date":commit.committer_date})
                     codeBlock.update({"nloc": i.nloc})
+                    codeBlock.update({"commitinfo": commit.hash})
                     blocksSoFar += 1
                     allFilesMethodsBlocks["CodeBlock" + str(blocksSoFar)] = codeBlock 
-    
-    
     previous_clones = pd.DataFrame(
         columns=['codeBlockId', 'codeBlock_start', 'codeBlock_end', 'codeBlock_fileinfo', 'codeblock_Code','tokens',
                  'codeCloneBlockId',
                  'codeCloneBlock_Fileinfo', 'Similarity_Tokens', 'Similarity_Variable_Flow',
-                 'Similarity_MethodCall_Flow', 'commitinfo', 'nloc', 'Revision','change_type'])
+                 'Similarity_MethodCall_Flow', 'commitinfo', 'nloc', 'Revision','change_type','committer_date'])
     
     previous_file_name = Config.granularity + 'tracking.csv'
    
@@ -87,8 +81,8 @@ def extractMethods(url):
           codeBlock.update({"Start":row['codeBlock_start']})
           codeBlock.update({"End": row['codeBlock_end']})
           codeBlock.update({"FileInfo": row['codeBlock_fileinfo']})
-          codeBlock.update({"committer_date":row['c1']})
-          codeBlock.update({"nloc": row['c1']})
+          codeBlock.update({"committer_date":row['committer_date']})
+          codeBlock.update({"nloc": row['nloc']})
           allFilesMethodsBlocks["CodeBlock" + str("old"+row['codeBlockId'])] = codeBlock 
       
     print("total code blocks",len(allFilesMethodsBlocks),linesofcode)
@@ -129,6 +123,115 @@ def extractMethods(url):
     current_dataset.to_csv(Config.granularity + 'tracking.csv')
     return current_dataset, linesofcode, codeclonelines[0],len(filename_list)
 
+def extractMethods(url,first_time = True):
+    allFilesMethodsBlocks = {}
+    linesofcode = 0
+    blocksSoFar = 0
+    commits = []
+    latest_commit = ''
+    first_commit = ''
+    for commit in Repository(url).traverse_commits():
+      commits.append(commit.hash)
+      latest_commit = commits[-1]
+      first_commit = commits[0]
+
+    metric = LinesCount(path_to_repo=url,from_commit=first_commit,to_commit=latest_commit)
+    total_lines = metric.count()
+    print('Total lines : {}'.format(sum(total_lines.values())))
+    codeBlocks={}
+    for commit in Repository(url,only_commits=[latest_commit]).traverse_commits():#,only_commits=[latest_commit]
+        filename_list=[]
+        for i in commit.modified_files:
+            if i.filename.endswith('java'): 
+                if Config.granularity == "method_level":   
+                    filename_list.append(i.filename)
+                    originalcode = str(i.source_code).replace('\r', '').replace('\t', '').split('\n')
+                    linesofcode = linesofcode + len(originalcode)
+                    codeBlocks = methodLevelBlocks(originalcode) 
+                elif Config.granularity == 'file_level':
+                    filename_list.append(i.filename)
+                    originalcode = str(i.source_code).replace('\r', '').replace('\t', '').split('\n')
+                    linesofcode = linesofcode + len(originalcode)
+                    codeBlocks = fileLevelBlocks(originalcode)
+                else:
+                    filename_list.append(i.filename)
+                    originalcode = str(i.source_code).replace('\r', '').replace('\t', '').split('\n')
+                    linesofcode = linesofcode + len(originalcode)
+                    codeBlocks =  normalized_codeblocks(originalcode)
+                if len(codeBlocks) == 0:
+                    continue
+                for codeBlock in codeBlocks:
+                    if len(codeBlock) == 0:
+                        continue
+                    codeBlock.update({"FileInfo": i.filename})
+                    codeBlock.update({"change_type": i.change_type})
+                    codeBlock.update({"old_path": i.old_path})
+                    codeBlock.update({"new_path": i.new_path})
+                    codeBlock.update({"source_code": i.source_code})
+                    codeBlock.update({"committer_date":commit.committer_date})
+                    codeBlock.update({"nloc": i.nloc})
+                    codeBlock.update({"commitinfo": commit.hash})
+                    blocksSoFar += 1
+                    allFilesMethodsBlocks["CodeBlock" + str(blocksSoFar)] = codeBlock 
+    previous_clones = pd.DataFrame(
+        columns=['codeBlockId', 'codeBlock_start', 'codeBlock_end', 'codeBlock_fileinfo', 'codeblock_Code','tokens',
+                 'codeCloneBlockId',
+                 'codeCloneBlock_Fileinfo', 'Similarity_Tokens', 'Similarity_Variable_Flow',
+                 'Similarity_MethodCall_Flow', 'commitinfo', 'nloc', 'Revision','change_type','committer_date'])
+    
+    previous_file_name = Config.granularity + 'tracking.csv'
+   
+    if os.path.isfile(previous_file_name): 
+      previous_dataset = pd.read_csv(previous_file_name, index_col=0)
+      for index, row in previous_dataset.iterrows():
+        for codeBlock in codeBlocks:
+          codeBlock.update({"Code": row['codeblock_Code']})
+          codeBlock.update({"Start":row['codeBlock_start']})
+          codeBlock.update({"End": row['codeBlock_end']})
+          codeBlock.update({"FileInfo": row['codeBlock_fileinfo']})
+          codeBlock.update({"committer_date":row['committer_date']})
+          codeBlock.update({"nloc": row['nloc']})
+          allFilesMethodsBlocks["CodeBlock" + str("old"+row['codeBlockId'])] = codeBlock 
+      
+    print("total code blocks",len(allFilesMethodsBlocks),linesofcode)
+    cloneBlocks, codeclonelines = CloneDetector.detectClone(allFilesMethodsBlocks)
+ 
+    current_dataset = dataset_creation(cloneBlocks)
+    current_dataset['nloc'] = current_dataset['nloc'].astype(int)
+    codeclonelines = current_dataset.groupby('codeBlockId').apply(lambda x: x['nloc'].unique()).sum()#['nloc']
+    print("detecting code clones",len(cloneBlocks),codeclonelines)
+    
+    current_dataset = current_dataset[current_dataset["codeBlockId"].str.contains("old") == False]
+    print("Transforming detected code blocks into dataset",current_dataset.shape)
+
+    if os.path.isfile(previous_file_name): 
+        previous_dataset = pd.read_csv(previous_file_name, index_col=0)
+        revision = previous_dataset.Revision.unique()
+        
+        previous_clones = previous_dataset[~previous_dataset.codeBlock_fileinfo.isin(current_dataset.codeBlock_fileinfo)]
+        frames = [current_dataset,previous_clones]
+        print("Revision", revision,revision[0] + 1)
+        current_dataset = pd.concat([current_dataset, previous_dataset])
+        current_dataset['Revision'] = revision[0] + 1
+        current_dataset = current_dataset.loc[current_dataset.astype(str).drop_duplicates().index]
+
+    else:
+        print("First version, no cloning result exists")
+        print("Revision", 1)
+        current_dataset['Revision'] = 1
+  
+    current_dataset = current_dataset.convert_dtypes()
+    all_columns = list(current_dataset)  # Creates list of all column headers
+    current_dataset[all_columns] = current_dataset[all_columns].astype(str)
+    current_dataset = current_dataset.loc[current_dataset.astype(str).drop_duplicates().index]
+    current_dataset['datetime'] = datetime.now()
+    current_dataset = current_dataset.reset_index(drop=True)
+    current_dataset = current_dataset.drop_duplicates()
+    current_dataset = current_dataset.reset_index(drop=True)
+    current_dataset.to_csv(Config.granularity + 'tracking.csv')
+    return current_dataset, linesofcode, codeclonelines[0],len(filename_list)
+
+
 def extractMethodsAllFiles(listOfFiles):
     allFilesMethodsBlocks = {}
     blocksSoFar = 0
@@ -159,6 +262,8 @@ def extractMethodsAllFiles(listOfFiles):
             codeBlock.update({"nloc": len(codeBlock)})
             codeBlock.update({"source_code": originalCode})
             codeBlock.update({"change_type": 'NA'})
+            codeBlock.update({"commitinfo":  'NA'})
+            codeBlock.update({"committer_date":  datetime.date})
             blocksSoFar += 1
             allFilesMethodsBlocks["CodeBlock" + str(blocksSoFar)] = codeBlock
     
@@ -175,7 +280,7 @@ def extractMethodsAllFiles(listOfFiles):
         columns=['codeBlockId', 'codeBlock_start', 'codeBlock_end', 'codeBlock_fileinfo', 'codeblock_Code','tokens',
                  'codeCloneBlockId',
                  'codeCloneBlock_Fileinfo', 'Similarity_Tokens', 'Similarity_Variable_Flow',
-                 'Similarity_MethodCall_Flow', 'commitinfo', 'nloc', 'Revision'])
+                 'Similarity_MethodCall_Flow', 'commitinfo', 'nloc', 'Revision','change_type','committer_date'])
     
     if os.path.isfile(previous_file_name):  # previous_file_name.exists():
         previous_dataset = pd.read_csv(previous_file_name, index_col=0)
@@ -210,7 +315,7 @@ def dataset_creation(codeBlocks):
         columns=['codeBlockId', 'codeBlock_start', 'codeBlock_end', 'codeBlock_fileinfo', 'codeblock_Code','tokens',
                  'codeCloneBlockId',
                  'codeCloneBlock_Fileinfo', 'Similarity_Tokens', 'Similarity_Variable_Flow',
-                 'Similarity_MethodCall_Flow', 'nloc','change_type'])
+                 'Similarity_MethodCall_Flow', 'nloc','change_type','commitinfo','committer_date'])
 
     output = []
     for codeBlockId in codeBlocks:
@@ -223,14 +328,15 @@ def dataset_creation(codeBlocks):
                 [codeBlockId, str(codeBlock["Start"]), str(codeBlock["End"]), codeBlock["FileInfo"], codeBlock["Code"],
                  codeBlock["Tokens"],
                  codeCloneBlockData["codeCandidateId"], codeCloneBlock["FileInfo"], str(codeCloneSimilarity[0]),
-                 str(codeCloneSimilarity[1]), str(codeCloneSimilarity[2]), str(codeBlock["nloc"]), str(codeBlock["change_type"])
+                 str(codeCloneSimilarity[1]), str(codeCloneSimilarity[2]), str(codeBlock["nloc"]), str(codeBlock["change_type"]),str(codeBlock["commitinfo"]),
+                 str(codeBlock["committer_date"])
                  ])
     for index, x in enumerate(output):
-        a_row = pd.Series([x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], x[9], x[10],x[11],x[12]],
+        a_row = pd.Series([x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], x[9], x[10],x[11],x[12],x[13],x[14]],
                           index=['codeBlockId', 'codeBlock_start', 'codeBlock_end', 'codeBlock_fileinfo',
                                  'codeblock_Code', 'tokens','codeCloneBlockId',
                                  'codeCloneBlock_Fileinfo', 'Similarity_Tokens', 'Similarity_Variable_Flow',
-                                 'Similarity_MethodCall_Flow', 'nloc','change_type'])
+                                 'Similarity_MethodCall_Flow', 'nloc','change_type','commitinfo','committer_date'])
         row_df = pd.DataFrame([a_row])
         df = df.append(row_df)
 
