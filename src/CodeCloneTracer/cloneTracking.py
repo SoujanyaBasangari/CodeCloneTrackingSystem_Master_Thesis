@@ -58,75 +58,129 @@ def clonetracingModel(df):
     return final_dataframe,indices
 
 
-def analysis_creating_report(final_dataframe, total_files, cloning_percentage,indices):
-    output = final_dataframe[
-        ['unique', 'Revision', 'clonesets', 'codeBlockId', 'codeBlock_start', 'codeBlock_end', 'nloc',
+def analysis_creating_report(final_dataframe, total_files, cloning_percentage,indices,git_first):
+    if git_first == False:
+        output = final_dataframe[['unique', 'Revision', 'clonesets', 'codeBlockId', 'codeBlock_start', 'codeBlock_end', 'nloc',
          'codeBlock_fileinfo', 'codeCloneBlockId','change_type']]
-    output = output.drop_duplicates(subset=['unique'], keep='last')
-    output = output.sort_values('Revision')
-    output['codeBlockId'] = output['codeBlockId'].str.replace('CodeBlock', '')
-    output["codeBlockId"] = output["codeBlockId"].astype(int)
-    output['Revision'] = output['Revision'].str.replace('R', '')
-    output["Revision"] = output["Revision"].astype(int)
-
-    idx = output.index
-    
-    output.sort_values(['codeBlockId', 'Revision'], inplace=True)
+        output = output.drop_duplicates(subset=['unique'], keep='last')
+        output = output.sort_values('Revision')
+        output['codeBlockId'] = output['codeBlockId'].str.replace('CodeBlock', '')
+        output["codeBlockId"] = output["codeBlockId"].astype(int)
+        output['Revision'] = output['Revision'].str.replace('R', '')
+        output["Revision"] = output["Revision"].astype(int)
+        idx = output.index
+        output.sort_values(['codeBlockId', 'Revision'], inplace=True)
+        output["codeBlock_start"] = pd.to_numeric(output["codeBlock_start"])#.astype(int)
+        output["codeBlock_end"] =  pd.to_numeric(output["codeBlock_end"])#.astype(int)
+        output["nloc"] =  pd.to_numeric(output["nloc"])
+        start =  output['codeBlock_start']
+        output['codeBlock_start_diffs'] = start.diff()
+        end =  output['codeBlock_end']
+        output['codeBlock_end_diff'] = end.diff()
+        nloc =  output['nloc']
+        output['nloc_diff'] = nloc.diff()
+        mask = output.codeBlockId != output.codeBlockId.shift(1)
+        output['codeBlock_start_diffs'][mask] = np.nan
+        output['codeBlock_end_diff'][mask] = np.nan
+        output['nloc_diff'][mask] = np.nan
+        output.sort_values(['Revision'], ascending=True, inplace=True)
+        output.reindex(idx)
+        output.sort_values(["Revision", "codeBlock_fileinfo"], ascending=True).groupby("codeBlockId").first()
+        output['ix'] = output.index
+        ix_first = output.sort_values(["Revision", "codeBlock_fileinfo"], ascending=True).groupby("codeBlockId").first()['ix']
+        output['status'] = ''
+        output['status'] = output['status'].where(output['ix'].isin(ix_first), 'stable')
+        output['status'] = output['status'].replace('', 'new')
+        output['status'] = output['status'].replace('', 'new')
+        output.loc[output.codeBlock_end_diff > 0, 'status'] = 'Modified/Added'
+        output.loc[output.codeBlock_end_diff < 0, 'status'] = 'Modified/removed'
+		 #output.loc[(output.status == '', 'status') |(output.change_type == 'ModificationType.ADD'), 'status']= 'new'
+		 #output.loc[(output.codeBlock_end_diff > 0)|(output.change_type == 'ModificationType.MODIFY'), 'status'] = 'Modified/Added'
+		 #output.loc[(output.codeBlock_end_diff < 0)|(output.change_type == 'ModificationType.MODIFY'), 'status'] = 'Modified/removed'
+         # output['codeBlock_start_diffs'] = output['codeBlock_start_diffs'].replace(np.NaN, 'new')
+        output['codeBlock_end_diff'] = output['codeBlock_end_diff'].replace(np.NaN, 'new')
+        output['nloc_diff'] = output['nloc_diff'].replace(np.NaN, 'new')
+        output = output.drop(columns=['ix'])
+        output['disappearing_clone'] = 3
+        output = output.set_index(["Revision", 'codeBlockId'])
+        index = pd.MultiIndex.from_product(output.index.levels, names=output.index.names)
+        output = output.reindex(index, fill_value=2).reset_index(level=1, drop=False).reset_index()
+        output.sort_values(['codeBlockId', 'Revision'], inplace=True)
+        idx = output.index
+        output['disappearing_clone_diffs'] = output['disappearing_clone'].diff()
+        mask = output.codeBlockId != output.codeBlockId.shift(1)
+        output['disappearing_clone_diffs'][mask] = np.nan
+        output['disappearing_clone_diffs'] = output['disappearing_clone_diffs'].replace(-1.0, 'disappearing_clone')
+        output = output.drop(columns=['disappearing_clone'])
+        output['disappearing_clone_diffs'] = output['disappearing_clone_diffs'].fillna('disappearing_clone')
+        output = output.drop(output[(output['disappearing_clone_diffs'] == 0.0) & (output['status'] == 2)].index)
+        output.reindex(idx)
+        output = output.sort_values('Revision')
+        maxvalue=output['Revision'].max()
    
-    output["codeBlock_start"] = pd.to_numeric(output["codeBlock_start"])#.astype(int)
-    output["codeBlock_end"] =  pd.to_numeric(output["codeBlock_end"])#.astype(int)
-    output["nloc"] =  pd.to_numeric(output["nloc"])
-    start =  output['codeBlock_start']
-    output['codeBlock_start_diffs'] = start.diff()
-    end =  output['codeBlock_end']
-    output['codeBlock_end_diff'] = end.diff()
-    nloc =  output['nloc']
-    output['nloc_diff'] = nloc.diff()
-
-    mask = output.codeBlockId != output.codeBlockId.shift(1)
-    output['codeBlock_start_diffs'][mask] = np.nan
-    output['codeBlock_end_diff'][mask] = np.nan
-    output['nloc_diff'][mask] = np.nan
-
-    output.sort_values(['Revision'], ascending=True, inplace=True)
-
-    output.reindex(idx)
-
-    output.sort_values(["Revision", "codeBlockId"], ascending=True).groupby("codeBlockId").first()
-
-    output['ix'] = output.index
-    ix_first = output.sort_values(["Revision", "codeBlockId"], ascending=True).groupby("codeBlockId").first()['ix']
-    output['status'] = ''
-    output['status'] = output['status'].where(output['ix'].isin(ix_first), 'stable')
-    output['status'] = output['status'].replace('', 'new')
-
-    output.loc[(output.status == '', 'status') |(output.change_type == 'ModificationType.ADD'), 'status']= 'new' 
-
-    output.loc[(output.codeBlock_end_diff > 0)|(output.change_type == 'ModificationType.MODIFY'), 'status'] = 'Modified/Added'
-    output.loc[(output.codeBlock_end_diff < 0)|(output.change_type == 'ModificationType.MODIFY'), 'status'] = 'Modified/removed'
-    output['codeBlock_start_diffs'] = output['codeBlock_start_diffs'].replace(np.NaN, 'new')
-    output['codeBlock_end_diff'] = output['codeBlock_end_diff'].replace(np.NaN, 'new')
-    output['nloc_diff'] = output['nloc_diff'].replace(np.NaN, 'new')
-    output = output.drop(columns=['ix'])
-    output['disappearing_clone'] = 3
-    output = output.set_index(["Revision", 'codeBlockId'])
-
-    index = pd.MultiIndex.from_product(output.index.levels, names=output.index.names)
-    output = output.reindex(index, fill_value=2).reset_index(level=1, drop=False).reset_index()
-
-    output.sort_values(['codeBlockId', 'Revision'], inplace=True)
-
-    idx = output.index
-    output['disappearing_clone_diffs'] = output['disappearing_clone'].diff()
-    mask = output.codeBlockId != output.codeBlockId.shift(1)
-    output['disappearing_clone_diffs'][mask] = np.nan
-    output['disappearing_clone_diffs'] = output['disappearing_clone_diffs'].replace(-1.0, 'disappearing_clone')
-    output = output.drop(columns=['disappearing_clone'])
-    output['disappearing_clone_diffs'] = output['disappearing_clone_diffs'].fillna('disappearing_clone')
-    output = output.drop(output[(output['disappearing_clone_diffs'] == 0.0) & (output['status'] == 2)].index)
-    output.reindex(idx)
-    output = output.sort_values('Revision')
-    maxvalue=output['Revision'].max()
+    
+    
+    else:
+        output = final_dataframe[['unique', 'Revision', 'clonesets', 'codeBlockId', 'codeBlock_start', 'codeBlock_end', 'nloc',
+         'codeBlock_fileinfo', 'codeCloneBlockId','change_type','commitinfo']]
+        output = output.drop_duplicates(subset=['unique'], keep='last')
+        output = output.sort_values('Revision')
+        output['codeBlockId'] = output['codeBlockId'].str.replace('CodeBlock', '')
+        output["codeBlockId"] = output["codeBlockId"].astype(int)
+        output['Revision'] = output['Revision'].str.replace('R', '')
+        output["Revision"] = output["Revision"].astype(int)
+        idx = output.index
+        output.sort_values(['codeBlock_fileinfo', 'commitinfo'], inplace=True)
+        output["codeBlock_start"] = pd.to_numeric(output["codeBlock_start"])#.astype(int)
+        output["codeBlock_end"] =  pd.to_numeric(output["codeBlock_end"])#.astype(int)
+        output["nloc"] =  pd.to_numeric(output["nloc"])
+        start =  output['codeBlock_start']
+        output['codeBlock_start_diffs'] = start.diff()
+        end =  output['codeBlock_end']
+        output['codeBlock_end_diff'] = end.diff()
+        nloc =  output['nloc']
+        output['nloc_diff'] = nloc.diff()
+        mask = output.codeBlockId != output.codeBlockId.shift(1)
+        output['codeBlock_start_diffs'][mask] = np.nan
+        output['codeBlock_end_diff'][mask] = np.nan
+        output['nloc_diff'][mask] = np.nan
+        output.sort_values(['commitinfo'], ascending=True, inplace=True)
+        output.reindex(idx)
+        output.sort_values(["commitinfo", "codeBlock_fileinfo"], ascending=True).groupby("codeBlockId").first()
+        output['ix'] = output.index
+        ix_first = output.sort_values(["commitinfo", "codeBlock_fileinfo"], ascending=True).groupby("codeBlockId").first()['ix']
+        output['status'] = ''
+        output['status'] = output['status'].where(output['ix'].isin(ix_first), 'stable')
+        output['status'] = output['status'].replace('', 'new')
+        output['status'] = output['status'].replace('', 'new')
+        output.loc[output.codeBlock_end_diff > 0, 'status'] = 'Modified/Added'
+        output.loc[output.codeBlock_end_diff < 0, 'status'] = 'Modified/removed'
+		 #output.loc[(output.status == '', 'status') |(output.change_type == 'ModificationType.ADD'), 'status']= 'new'
+		 #output.loc[(output.codeBlock_end_diff > 0)|(output.change_type == 'ModificationType.MODIFY'), 'status'] = 'Modified/Added'
+		 #output.loc[(output.codeBlock_end_diff < 0)|(output.change_type == 'ModificationType.MODIFY'), 'status'] = 'Modified/removed'
+         # output['codeBlock_start_diffs'] = output['codeBlock_start_diffs'].replace(np.NaN, 'new')
+        output['codeBlock_end_diff'] = output['codeBlock_end_diff'].replace(np.NaN, 'new')
+        output['nloc_diff'] = output['nloc_diff'].replace(np.NaN, 'new')
+        output = output.drop(columns=['ix'])
+        output['disappearing_clone'] = 3
+        output = output.set_index(["commitinfo", 'codeBlockId'])
+        index = pd.MultiIndex.from_product(output.index.levels, names=output.index.names)
+        output = output.reindex(index, fill_value=2).reset_index(level=1, drop=False).reset_index()
+        output.sort_values(['codeBlockId', 'commitinfo'], inplace=True)
+        idx = output.index
+        output['disappearing_clone_diffs'] = output['disappearing_clone'].diff()
+        mask = output.codeBlockId != output.codeBlockId.shift(1)
+        output['disappearing_clone_diffs'][mask] = np.nan
+        output['disappearing_clone_diffs'] = output['disappearing_clone_diffs'].replace(-1.0, 'disappearing_clone')
+        output = output.drop(columns=['disappearing_clone'])
+        output['disappearing_clone_diffs'] = output['disappearing_clone_diffs'].fillna('disappearing_clone')
+        output = output.drop(output[(output['disappearing_clone_diffs'] == 0.0) & (output['status'] == 2)].index)
+        output.reindex(idx)
+        output = output.sort_values('commitinfo')
+        maxvalue=output['commitinfo'].nunique()#.max()
+    
+    
+    
     granularity = Config.granularity
     path = str(Config.dirPath)+str(granularity)+'.txt'
     
