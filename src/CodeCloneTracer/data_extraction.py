@@ -239,7 +239,7 @@ def extractMethodsAllFiles(listOfFiles):
     codeBlocks = {}
     print("data extraction from source code")
     for filePath in listOfFiles:
-        file = open(filePath, 'r', encoding='utf-8')#encoding = "ISO-8859-1"
+        file = open(filePath, 'r',encoding = "ISO-8859-1")# encoding='utf-8' encoding = "ISO-8859-1"
         originalCode = file.readlines()
         file.close()
         if Config.granularity == 'method_level':

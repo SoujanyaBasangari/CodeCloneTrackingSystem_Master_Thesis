@@ -1,10 +1,10 @@
 
-dirPath = "D:/projects/Test_project_Codeclonetracer/onlinebookstore-J2EE"
+dirPath = "D:/projects/clone/test_project/"
 
 url = "https://github.com/shashirajraja/onlinebookstore"
 
 extract_from_git = False
-
+git_first=False
 # Minimum length of block to consider
 minimumLengthBlock = 10
 
