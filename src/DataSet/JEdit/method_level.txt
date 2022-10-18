@@ -1,0 +1,217 @@
+cloneset1
+['R1CodeBlock9', 'R1CodeBlock295']
+
+cloneset2
+['R1CodeBlock296']
+
+cloneset3
+['R1CodeBlock294', 'R1CodeBlock313']
+
+cloneset4
+['R1CodeBlock333', 'R1CodeBlock334', 'R1CodeBlock336', 'R1CodeBlock337', 'R1CodeBlock338', 'R1CodeBlock329', 'R1CodeBlock267']
+
+cloneset5
+['R1CodeBlock348', 'R1CodeBlock349']
+
+cloneset6
+['R1CodeBlock187']
+
+cloneset7
+['R1CodeBlock260', 'R1CodeBlock72']
+
+cloneset8
+['R1CodeBlock299']
+
+cloneset9
+['R1CodeBlock324']
+
+cloneset10
+['R1CodeBlock360']
+
+cloneset11
+['R1CodeBlock363']
+
+cloneset12
+['R1CodeBlock361']
+
+cloneset13
+['R1CodeBlock362']
+
+cloneset14
+['R1CodeBlock325']
+
+cloneset15
+['R1CodeBlock342']
+
+cloneset16
+['R1CodeBlock168', 'R1CodeBlock365']
+
+cloneset17
+['R1CodeBlock297', 'R1CodeBlock298']
+
+cloneset18
+['R1CodeBlock286', 'R1CodeBlock287', 'R1CodeBlock288', 'R1CodeBlock292', 'R1CodeBlock314', 'R1CodeBlock315', 'R1CodeBlock316']
+
+cloneset19
+['R1CodeBlock271', 'R1CodeBlock272', 'R1CodeBlock273']
+
+cloneset20
+['R1CodeBlock270', 'R1CodeBlock275', 'R1CodeBlock276', 'R1CodeBlock277', 'R1CodeBlock278', 'R1CodeBlock280', 'R1CodeBlock281', 'R1CodeBlock282', 'R1CodeBlock284', 'R1CodeBlock285']
+
+cloneset21
+['R1CodeBlock266', 'R1CodeBlock71']
+
+cloneset22
+['R1CodeBlock321', 'R1CodeBlock323']
+
+cloneset23
+['R1CodeBlock319']
+
+cloneset24
+['R1CodeBlock320']
+
+cloneset25
+['R1CodeBlock355', 'R1CodeBlock356', 'R1CodeBlock357', 'R1CodeBlock358', 'R1CodeBlock359']
+
+cloneset26
+['R1CodeBlock293', 'R1CodeBlock289', 'R1CodeBlock269']
+
+cloneset27
+['R1CodeBlock304']
+
+cloneset28
+['R1CodeBlock77', 'R1CodeBlock33']
+
+cloneset29
+['R1CodeBlock20']
+
+cloneset30
+['R1CodeBlock74', 'R1CodeBlock76', 'R1CodeBlock53', 'R1CodeBlock51', 'R1CodeBlock26', 'R1CodeBlock32', 'R1CodeBlock241', 'R1CodeBlock242']
+
+cloneset31
+['R1CodeBlock82', 'R1CodeBlock83']
+
+cloneset32
+['R1CodeBlock79', 'R1CodeBlock80', 'R1CodeBlock85', 'R1CodeBlock86', 'R1CodeBlock16', 'R1CodeBlock17', 'R1CodeBlock45', 'R1CodeBlock46', 'R1CodeBlock50', 'R1CodeBlock29', 'R1CodeBlock90', 'R1CodeBlock107', 'R1CodeBlock189', 'R1CodeBlock190', 'R1CodeBlock245', 'R1CodeBlock246', 'R1CodeBlock255', 'R1CodeBlock256', 'R1CodeBlock258', 'R1CodeBlock259']
+
+cloneset33
+['R1CodeBlock78', 'R1CodeBlock54', 'R1CodeBlock11', 'R1CodeBlock41', 'R1CodeBlock48', 'R1CodeBlock188', 'R1CodeBlock254', 'R1CodeBlock183', 'R1CodeBlock119', 'R1CodeBlock120']
+
+cloneset34
+['R1CodeBlock55']
+
+cloneset35
+['R1CodeBlock88']
+
+cloneset36
+['R1CodeBlock22']
+
+cloneset37
+['R1CodeBlock73']
+
+cloneset38
+['R1CodeBlock81', 'R1CodeBlock84', 'R1CodeBlock87', 'R1CodeBlock10', 'R1CodeBlock19', 'R1CodeBlock47', 'R1CodeBlock364', 'R1CodeBlock240', 'R1CodeBlock247', 'R1CodeBlock257', 'R1CodeBlock186', 'R1CodeBlock185']
+
+cloneset39
+['R1CodeBlock142', 'R1CodeBlock145', 'R1CodeBlock147', 'R1CodeBlock155', 'R1CodeBlock156', 'R1CodeBlock166', 'R1CodeBlock91', 'R1CodeBlock167', 'R1CodeBlock169', 'R1CodeBlock170', 'R1CodeBlock174', 'R1CodeBlock175', 'R1CodeBlock176', 'R1CodeBlock178', 'R1CodeBlock179', 'R1CodeBlock180']
+
+cloneset40
+['R1CodeBlock268']
+
+cloneset41
+['R1CodeBlock330']
+
+cloneset42
+['R1CodeBlock331']
+
+cloneset43
+['R1CodeBlock21']
+
+cloneset44
+['R1CodeBlock332']
+
+cloneset45
+['R1CodeBlock301']
+
+cloneset46
+['R1CodeBlock302']
+
+cloneset47
+['R1CodeBlock308']
+
+cloneset48
+['R1CodeBlock347']
+
+cloneset49
+['R1CodeBlock300']
+
+cloneset50
+['R1CodeBlock353']
+
+cloneset51
+['R1CodeBlock305']
+
+cloneset52
+['R1CodeBlock318']
+
+cloneset53
+['R1CodeBlock340']
+
+cloneset54
+['R1CodeBlock317']
+
+cloneset55
+['R1CodeBlock352']
+
+cloneset56
+['R1CodeBlock341']
+
+cloneset57
+['R1CodeBlock354']
+
+cloneset58
+['R1CodeBlock89']
+
+cloneset59
+['R1CodeBlock345']
+
+cloneset60
+['R1CodeBlock243']
+
+cloneset61
+['R1CodeBlock309', 'R1CodeBlock310', 'R1CodeBlock311', 'R1CodeBlock312']
+
+cloneset62
+['R1CodeBlock350']
+
+cloneset63
+['R1CodeBlock351']
+
+cloneset64
+['R1CodeBlock306']
+
+cloneset65
+['R1CodeBlock328']
+
+cloneset66
+['R1CodeBlock184']
+
+cloneset67
+['R1CodeBlock307']
+
+cloning_percentage = 54.42976391662826
+FILE LEVEL INFORMATIONtotal_files = 132
+final_revision = 1
+files_containing_clones = 25
+added_files = 25
+deleted_files = 0
+CLONESETS INFORMATIONtotal_clone_sets = 67
+stable_clonesets = 0
+new_clonesets = 67
+deleted_clonesets = 0
+changed_clonesets = 0
+CODECLONES INFORMATIONtotal_codeclones = 170
+stable_codeclones = 0
+new_codeclones = 170
+deleted_codeclones = 0
+changed_codeclones = 0
