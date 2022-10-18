@@ -116,7 +116,7 @@ def extractMethods(url):
     all_columns = list(current_dataset)  # Creates list of all column headers
     current_dataset[all_columns] = current_dataset[all_columns].astype(str)
     current_dataset = current_dataset.loc[current_dataset.astype(str).drop_duplicates().index]
-    current_dataset['datetime'] = datetime.now()
+    current_dataset['datetime'] = datetime.datetime.now()
     current_dataset = current_dataset.reset_index(drop=True)
     current_dataset = current_dataset.drop_duplicates()
     current_dataset = current_dataset.reset_index(drop=True)
@@ -224,7 +224,7 @@ def extractMethods(url,first_time = True):
     all_columns = list(current_dataset)  # Creates list of all column headers
     current_dataset[all_columns] = current_dataset[all_columns].astype(str)
     current_dataset = current_dataset.loc[current_dataset.astype(str).drop_duplicates().index]
-    current_dataset['datetime'] = datetime.now()
+    current_dataset['datetime'] = datetime.datetime.now()
     current_dataset = current_dataset.reset_index(drop=True)
     current_dataset = current_dataset.drop_duplicates()
     current_dataset = current_dataset.reset_index(drop=True)
@@ -301,11 +301,11 @@ def extractMethodsAllFiles(listOfFiles):
     all_columns = list(current_dataset)  
     current_dataset[all_columns] = current_dataset[all_columns].astype(str)
     current_dataset = current_dataset.loc[current_dataset.astype(str).drop_duplicates().index]
-    current_dataset['datetime'] = datetime.now()
+    current_dataset['datetime'] = datetime.datetime.now()
     current_dataset = current_dataset.reset_index(drop=True)
     current_dataset = current_dataset.drop_duplicates()
     current_dataset = current_dataset.reset_index(drop=True)
-    current_dataset.to_csv(Config.dirPath+ granularity + 'tracking.csv')
+    current_dataset.to_csv(Config.dirPath+'\\'+ granularity + 'tracking.csv')
 
     return current_dataset, linesofcode, codeclonelines
 
