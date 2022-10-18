@@ -239,7 +239,7 @@ def extractMethodsAllFiles(listOfFiles):
     codeBlocks = {}
     print("data extraction from source code")
     for filePath in listOfFiles:
-        file = open(filePath, 'r', encoding='utf-8')
+        file = open(filePath, 'r', encoding='utf-8')#encoding = "ISO-8859-1"
         originalCode = file.readlines()
         file.close()
         if Config.granularity == 'method_level':
@@ -305,7 +305,7 @@ def extractMethodsAllFiles(listOfFiles):
     current_dataset = current_dataset.reset_index(drop=True)
     current_dataset = current_dataset.drop_duplicates()
     current_dataset = current_dataset.reset_index(drop=True)
-    current_dataset.to_csv(Config.dirPath+'\\'+ granularity + 'tracking.csv')
+    current_dataset.to_csv(Config.dirPath+ granularity + 'tracking.csv')
 
     return current_dataset, linesofcode, codeclonelines
 
